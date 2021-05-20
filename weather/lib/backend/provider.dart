@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/theme/theme_provider.dart';
 
 import 'backend.dart';
 
@@ -21,17 +20,8 @@ class BackendProvider extends StatelessWidget {
         Provider<Backend>.value(
           value: backend,
         ),
-        ChangeNotifierProvider(
-          create: (context) => ThemeProvider(),
-        ),
       ],
       child: child,
-      // MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider<SettingsBloc>.value(value: backend.settingsBloc),
-      //   ],
-      //   child: child,
-      // ),
     );
   }
 }

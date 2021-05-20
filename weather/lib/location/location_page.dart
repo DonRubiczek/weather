@@ -8,17 +8,19 @@ import 'package:weather/day_forecast/day_forecast_page.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/model/location_data.dart';
 import 'package:weather/repository/model/sources.dart';
-import 'package:weather/repository/weather_repository.dart';
 import 'package:weather/theme/app_theme.dart';
-import 'package:weather/theme/theme_provider.dart';
 import 'package:weather/widgets/error_card.dart';
 import 'package:weather/widgets/loader.dart';
 import 'package:weather/widgets/weather_card.dart';
+import 'package:weather/theme/app_specific_theme.dart';
 
 import 'bloc/location_bloc.dart';
 
 class LocationPage extends StatelessWidget {
-  LocationPage._({Key? key, required this.location}) : super(key: key);
+  LocationPage._({
+    Key? key,
+    required this.location,
+  }) : super(key: key);
 
   final Location location;
 
@@ -47,13 +49,15 @@ class LocationPage extends StatelessWidget {
 }
 
 class LocationView extends StatelessWidget {
-  LocationView({Key? key, required this.location}) : super(key: key);
+  LocationView({
+    Key? key,
+    required this.location,
+  }) : super(key: key);
   DateTime selectedDate = DateTime.now();
   final Location location;
 
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeProvider>(context, listen: false).theme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -65,13 +69,41 @@ class LocationView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          key: const Key(
+            'locationAppBarBackButton',
+          ),
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.pop(
+            context,
+          ),
+        ),
       ),
-      backgroundColor: theme.backgroundColor,
-      body: BlocBuilder<LocationBloc, LocationState>(
-        bloc: BlocProvider.of<LocationBloc>(context),
+      backgroundColor: context.theme.backgroundColor,
+      body: BlocConsumer<LocationBloc, LocationState>(
+        buildWhen: (previousState, state) {
+          return state is! Navigate;
+        },
+        listener: (BuildContext context, state) {
+          if (state is Navigate) {
+            Navigator.push(
+              context,
+              DayForecastPage.route(
+                location: location,
+                date: state.data,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is LocationDataCollected)
-            return _buildPage(state.data, theme, context);
+            return _buildPage(
+              state.data,
+              context.theme,
+              context,
+            );
           else if (state is Initial) {
             return Loader();
           } else if (state is Loading) {
@@ -90,8 +122,14 @@ class LocationView extends StatelessWidget {
       physics: const ScrollPhysics(),
       child: Column(
         children: <Widget>[
-          _weatherPageHeaderData(data, theme),
-          _buildDatePickerContainer(context),
+          _weatherPageHeaderData(
+            data,
+            theme,
+          ),
+          _buildDatePickerContainer(
+            context,
+            theme,
+          ),
           Container(
             height: 230,
             width: MediaQuery.of(context).size.width,
@@ -112,10 +150,9 @@ class LocationView extends StatelessWidget {
               child: Text(
                 'Sources',
                 style: TextStyle(
-                    color: Provider.of<ThemeProvider>(context, listen: false)
-                        .theme
-                        .bodyTextColor,
-                    fontWeight: FontWeight.bold),
+                  color: theme.bodyTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -138,17 +175,28 @@ class LocationView extends StatelessWidget {
     );
   }
 
-  Widget _buildDatePickerContainer(BuildContext context) {
-    var redColor =
-        Provider.of<ThemeProvider>(context, listen: false).theme.errorColor;
+  Widget _buildDatePickerContainer(BuildContext context, AppTheme theme) {
+    var redColor = theme.errorColor;
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
         border: Border(
-          right: BorderSide(width: 3.0, color: redColor),
-          top: BorderSide(width: 3.0, color: redColor),
-          left: BorderSide(width: 3.0, color: redColor),
-          bottom: BorderSide(width: 3.0, color: redColor),
+          right: BorderSide(
+            width: 3.0,
+            color: redColor,
+          ),
+          top: BorderSide(
+            width: 3.0,
+            color: redColor,
+          ),
+          left: BorderSide(
+            width: 3.0,
+            color: redColor,
+          ),
+          bottom: BorderSide(
+            width: 3.0,
+            color: redColor,
+          ),
         ),
       ),
       child: Padding(
@@ -168,14 +216,21 @@ class LocationView extends StatelessWidget {
             Row(
               children: [
                 ElevatedButton(
+                  key: const Key(
+                    'locationSelectDateButtonKey',
+                  ),
                   onPressed: () => _selectDate(context),
                   child: const Text(
                     'Select date',
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(redColor),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      redColor,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -203,32 +258,28 @@ class LocationView extends StatelessWidget {
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
-    // if (picked != selectedDate)
-    //   setState(
-    //     () {
-    //       if (picked != null) {
-    //         selectedDate = picked;
-    //         var correctDateFormat = '${selectedDate.toLocal()}'
-    //             .split(' ')[0]
-    //             .replaceAll(RegExp(r'-'), '/');
-    //         Navigator.push(
-    //           context,
-    //           DayForecastPage.route(
-    //               location: location, date: correctDateFormat),
-    //         );
-    //       }
-    //     },
-    //   );
+    if (picked != null && picked != selectedDate) selectedDate = picked;
+    var correctDateFormat =
+        '${selectedDate.toLocal()}'.split(' ')[0].replaceAll(
+              RegExp(r'-'),
+              '/',
+            );
+    BlocProvider.of<LocationBloc>(context).add(
+      NavigateToLocationForecast(date: correctDateFormat),
+    );
   }
 
   Container _buildSourcesTile(Sources data) {
     return Container(
+      key: const Key('locationSourceTileKey'),
       padding: const EdgeInsets.all(4),
       child: Center(
         child: InkWell(
           child: Text(
             data.title,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
           onTap: () => launch(data.url),
         ),
@@ -236,21 +287,42 @@ class LocationView extends StatelessWidget {
     );
   }
 
-  Container _weatherPageHeaderData(LocationData data, AppTheme theme) {
+  Container _weatherPageHeaderData(
+    LocationData data,
+    AppTheme theme,
+  ) {
     return Container(
       padding: const EdgeInsets.all(15),
       child: Column(
         children: <Widget>[
-          _headerAlignedText(theme, 'location type: ${data.locationType}'),
           _headerAlignedText(
-              theme, 'lattitude: ${data.lattlong.split(',').first}'),
+            theme,
+            'location type: ${data.locationType}',
+          ),
           _headerAlignedText(
-              theme, 'longitude: ${data.lattlong.split(',').last}'),
+            theme,
+            'lattitude: ${data.lattlong.split(',').first}',
+          ),
           _headerAlignedText(
-              theme, 'timezone: ${data.timezone}-${data.timezoneName}'),
-          _headerAlignedText(theme, 'time: ${data.time}'),
-          _headerAlignedText(theme, 'sun rise: ${data.sunRise}'),
-          _headerAlignedText(theme, 'sun set: ${data.sunSet}'),
+            theme,
+            'longitude: ${data.lattlong.split(',').last}',
+          ),
+          _headerAlignedText(
+            theme,
+            'timezone: ${data.timezone}-${data.timezoneName}',
+          ),
+          _headerAlignedText(
+            theme,
+            'time: ${data.time}',
+          ),
+          _headerAlignedText(
+            theme,
+            'sun rise: ${data.sunRise}',
+          ),
+          _headerAlignedText(
+            theme,
+            'sun set: ${data.sunSet}',
+          ),
         ],
       ),
     );
@@ -263,6 +335,9 @@ class LocationView extends StatelessWidget {
         text,
         style: theme.headline2,
         textAlign: TextAlign.left,
+        key: const Key(
+          'locationHeaderKey',
+        ),
       ),
     );
   }

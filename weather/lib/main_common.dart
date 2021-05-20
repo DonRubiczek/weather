@@ -10,7 +10,10 @@ import 'backend/provider.dart';
 
 void mainCommon() {
   FlutterError.onError = (error) {
-    log(error.exceptionAsString(), stackTrace: error.stack);
+    log(
+      error.exceptionAsString(),
+      stackTrace: error.stack,
+    );
   };
 
   runZonedGuarded(
@@ -19,20 +22,26 @@ void mainCommon() {
       WidgetsBinding.instance!.renderView.automaticSystemUiAdjustment = false;
 
       SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+        const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+        ),
+      );
 
       final backend = await AppBackend.init();
       //timeago.setLocaleMessages('pl', timeago.PlMessages());
 
       runApp(
         BackendProvider(
-          backend: backend!,
+          backend: backend,
           child: App(backend: backend),
         ),
       );
     },
     (error, stack) {
-      log(error.toString(), stackTrace: stack);
+      log(
+        error.toString(),
+        stackTrace: stack,
+      );
     },
   );
 }

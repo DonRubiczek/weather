@@ -11,17 +11,15 @@ abstract class Backend {
   ApiClient get apiClient;
 
   SharedPreferences get sharedPreferences;
-
-  //SettingsBloc get settingsBloc;
 }
 
 class AppBackend extends Backend {
-  AppBackend._(
-      {required this.weatherRepository,
-      required this.settingsRepository,
-      //required this.settingsBloc,
-      required this.apiClient,
-      required this.sharedPreferences});
+  AppBackend({
+    required this.weatherRepository,
+    required this.settingsRepository,
+    required this.apiClient,
+    required this.sharedPreferences,
+  });
 
   @override
   final WeatherRepository weatherRepository;
@@ -34,35 +32,30 @@ class AppBackend extends Backend {
   @override
   final SharedPreferences sharedPreferences;
 
-  //@override
-  //final SettingsBloc settingsBloc;
-
-  static AppBackend? _instance;
-  static AppBackend? get instance {
-    if (_instance != null) {
-      return _instance;
-    }
-    throw Exception('Missing backend');
+  static late AppBackend _instance;
+  static AppBackend get instance {
+    return _instance;
   }
 
-  static Future<AppBackend?> init() async {
+  static Future<AppBackend> init() async {
     final sharedPreferences = await SharedPreferences.getInstance();
 
     final apiClient = ApiClient(
       dio,
     );
 
-    final weatherRepository = WeatherRepository(apiClient);
-    final settingsRepository = SettingsRepository(sharedPreferences);
+    final weatherRepository = WeatherRepository(
+      apiClient,
+    );
+    final settingsRepository = SettingsRepository(
+      sharedPreferences,
+    );
 
-    //final settingsBloc = SettingsBloc(preferences: sharedPreferences);
-
-    _instance = AppBackend._(
+    _instance = AppBackend(
       weatherRepository: weatherRepository,
       settingsRepository: settingsRepository,
       apiClient: apiClient,
       sharedPreferences: sharedPreferences,
-      //settingsBloc: settingsBloc,
     );
 
     return instance;

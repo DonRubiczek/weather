@@ -8,7 +8,10 @@ import 'package:weather/main_common.dart';
 void main() {
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
+    log(
+      details.exceptionAsString(),
+      stackTrace: details.stack,
+    );
   };
 
   mainCommon();

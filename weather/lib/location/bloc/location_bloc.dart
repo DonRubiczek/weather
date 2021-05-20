@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:weather/repository/model/location_data.dart';
 import 'package:weather/repository/weather_repository.dart';
@@ -20,7 +21,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     LocationEvent event,
   ) async* {
     if (event is GetLocationData) {
-      yield* mapLocationByNameToState(event);
+      yield* mapLocationByNameToState(
+        event,
+      );
+    } else if (event is NavigateToLocationForecast) {
+      yield Navigate(event.date);
     }
   }
 
@@ -29,8 +34,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   ) async* {
     yield Loading();
 
-    final result =
-        await weatherRepository.locationInformation(event.locationId);
+    final result = await weatherRepository.locationInformation(
+      event.locationId,
+    );
 
     if (result.data != null)
       yield LocationDataCollected(result.data!);

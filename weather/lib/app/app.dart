@@ -4,10 +4,12 @@ import 'package:weather/backend/backend.dart';
 import 'package:weather/home/home_page.dart';
 import 'package:weather/l10n/l10n.dart';
 import 'package:weather/theme/app_specific_theme.dart';
-import 'package:weather/theme/app_builder.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, required this.backend}) : super(key: key);
+  const App({
+    Key? key,
+    required this.backend,
+  }) : super(key: key);
 
   final Backend backend;
 
@@ -22,9 +24,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const AppBuilder(
-        child: HomePage(),
-      ),
+      home: const HomePage(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/repository/weather_repository.dart';
@@ -18,7 +19,9 @@ class DayForecastBloc extends Bloc<DayForecastEvent, DayForecastState> {
     DayForecastEvent event,
   ) async* {
     if (event is GetLocationDayForecast) {
-      yield* mapGetDayForecastToState(event);
+      yield* mapGetDayForecastToState(
+        event,
+      );
     }
   }
 

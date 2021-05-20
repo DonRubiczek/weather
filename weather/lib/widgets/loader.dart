@@ -4,22 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Loader extends StatefulWidget {
-  Loader(
-      {Key? key,
-      this.centralDotColor = Colors.black26,
-      this.dotOneColor = Colors.red,
-      this.dotTwoColor = Colors.lightBlue,
-      this.dotThreeColor = Colors.orange,
-      this.dotFourColor = Colors.green,
-      this.dotFiveColor = Colors.yellow,
-      this.dotSixColor = Colors.blue,
-      this.dotSevenColor = Colors.pink,
-      this.dotEightColor = Colors.lightGreen,
-      this.centralDotRadius = 15.0,
-      this.spanRadius = 15.0,
-      this.duration = const Duration(seconds: 2),
-      this.outerDotRadius = 5.0})
-      : super(key: key);
+  Loader({
+    Key? key,
+    this.centralDotColor = Colors.black26,
+    this.dotOneColor = Colors.red,
+    this.dotTwoColor = Colors.lightBlue,
+    this.dotThreeColor = Colors.orange,
+    this.dotFourColor = Colors.green,
+    this.dotFiveColor = Colors.yellow,
+    this.dotSixColor = Colors.blue,
+    this.dotSevenColor = Colors.pink,
+    this.dotEightColor = Colors.lightGreen,
+    this.centralDotRadius = 15.0,
+    this.spanRadius = 15.0,
+    this.duration = const Duration(seconds: 2),
+    this.outerDotRadius = 5.0,
+  }) : super(key: key);
 
   final Color centralDotColor;
   final Color dotOneColor;
@@ -52,22 +52,50 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: widget.duration);
+    controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
 
-    animationRadiusIn =
-        Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-      parent: controller,
-      curve: Interval(0.75, 1.0, curve: Curves.elasticIn),
-    ));
-    animationRadiusOut =
-        Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: controller,
-      curve: Interval(0.0, 0.25, curve: Curves.elasticOut),
-    ));
-    animationRotation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: controller,
-            curve: Interval(0.0, 1.0, curve: Curves.linear)));
+    animationRadiusIn = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: const Interval(
+          0.75,
+          1.0,
+          curve: Curves.elasticIn,
+        ),
+      ),
+    );
+    animationRadiusOut = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: const Interval(
+          0.0,
+          0.25,
+          curve: Curves.elasticOut,
+        ),
+      ),
+    );
+    animationRotation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: const Interval(
+          0.0,
+          1.0,
+          curve: Curves.linear,
+        ),
+      ),
+    );
 
     controller.addListener(() {
       if (controller.value >= 0.75 && controller.value <= 1.0) {
@@ -105,55 +133,73 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
                 color: widget.centralDotColor,
               ),
               Transform.translate(
-                  offset: Offset(cos(pi / 4) * radius, sin(pi / 4) * radius),
+                  offset: Offset(
+                    cos(pi / 4) * radius,
+                    sin(pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotOneColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(2 * pi / 4) * radius, sin(2 * pi / 4) * radius),
+                    cos(2 * pi / 4) * radius,
+                    sin(2 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotTwoColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(3 * pi / 4) * radius, sin(3 * pi / 4) * radius),
+                    cos(3 * pi / 4) * radius,
+                    sin(3 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotThreeColor,
                   )),
               Transform.translate(
-                  offset: Offset(cos(pi) * radius, sin(pi) * radius),
+                  offset: Offset(
+                    cos(pi) * radius,
+                    sin(pi) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotFourColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(5 * pi / 4) * radius, sin(5 * pi / 4) * radius),
+                    cos(5 * pi / 4) * radius,
+                    sin(5 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotFiveColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(6 * pi / 4) * radius, sin(6 * pi / 4) * radius),
+                    cos(6 * pi / 4) * radius,
+                    sin(6 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotSixColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(7 * pi / 4) * radius, sin(7 * pi / 4) * radius),
+                    cos(7 * pi / 4) * radius,
+                    sin(7 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotSevenColor,
                   )),
               Transform.translate(
                   offset: Offset(
-                      cos(8 * pi / 4) * radius, sin(8 * pi / 4) * radius),
+                    cos(8 * pi / 4) * radius,
+                    sin(8 * pi / 4) * radius,
+                  ),
                   child: Dot(
                     radius: widget.outerDotRadius,
                     color: widget.dotEightColor,
@@ -167,8 +213,11 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
 }
 
 class Dot extends StatelessWidget {
-  const Dot({Key? key, required this.radius, required this.color})
-      : super(key: key);
+  const Dot({
+    Key? key,
+    required this.radius,
+    required this.color,
+  }) : super(key: key);
 
   final double radius;
   final Color color;
@@ -179,7 +228,10 @@ class Dot extends StatelessWidget {
       child: Container(
         width: radius,
         height: radius,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }

@@ -1,18 +1,22 @@
 part of 'settings_bloc.dart';
 
 @immutable
-abstract class SettingsEvent {}
+abstract class SettingsEvent extends Equatable {}
 
 class ChangeTheme extends SettingsEvent {
-  ChangeTheme({required this.themeId, required this.context});
+  ChangeTheme({required this.themeId});
 
   final int themeId;
-  final BuildContext context;
+
+  @override
+  List<Object> get props => [themeId];
 }
 
 class ChangeMetricSystem extends SettingsEvent {
-  ChangeMetricSystem({required this.systemId, required this.context});
+  ChangeMetricSystem({required this.systemId});
 
   final int systemId;
-  final BuildContext context;
+
+  @override
+  List<Object> get props => [systemId];
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/backend/backend.dart';
 import 'package:weather/theme/app_theme.dart';
-import 'package:weather/theme/theme_provider.dart';
 
 class BrightAppTheme extends AppTheme {
   static const Color snow = Color(0xFFFCFBFA);
@@ -157,6 +156,20 @@ class DarkAppTheme extends AppTheme {
 }
 
 extension ThemeExtension on BuildContext {
-  AppTheme get theme => Provider.of<ThemeProvider>(this).getThemeById(
-      Provider.of<Backend>(this).sharedPreferences.getInt('THEME_ID'));
+  AppTheme get theme => ThemeProvider.getThemeById(
+        Provider.of<Backend>(this).settingsRepository.themeId,
+      );
+}
+
+class ThemeProvider {
+  static AppTheme getThemeById(int? id) {
+    switch (id) {
+      case 0:
+        return BrightAppTheme();
+      case 1:
+        return DarkAppTheme();
+      default:
+        return BrightAppTheme();
+    }
+  }
 }

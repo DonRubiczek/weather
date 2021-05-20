@@ -25,6 +25,8 @@ dependencies:
   provider: ^5.0.0
   theme_provider: ^0.5.0
   url_launcher: ^6.0.3
+  equatable: ^2.0.0
+
 
 
 
@@ -38,3 +40,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+   - assets/location.json

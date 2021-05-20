@@ -5,14 +5,16 @@ import 'package:weather/backend/backend.dart';
 import 'package:weather/day_forecast/bloc/day_forecast_bloc.dart';
 import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/repository/model/location.dart';
-import 'package:weather/repository/weather_repository.dart';
 import 'package:weather/widgets/error_card.dart';
 import 'package:weather/widgets/loader.dart';
 import 'package:weather/widgets/weather_card.dart';
 
 class DayForecastPage extends StatelessWidget {
-  DayForecastPage._({Key? key, required this.location, required this.date})
-      : super(key: key);
+  DayForecastPage._({
+    Key? key,
+    required this.location,
+    required this.date,
+  }) : super(key: key);
 
   final Location location;
   final String date;
@@ -22,7 +24,10 @@ class DayForecastPage extends StatelessWidget {
     required String date,
   }) =>
       MaterialPageRoute(
-        builder: (_) => DayForecastPage._(location: location, date: date),
+        builder: (_) => DayForecastPage._(
+          location: location,
+          date: date,
+        ),
       );
 
   @override
@@ -68,6 +73,17 @@ class DayForecastView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          key: const Key(
+            'dayForecastAppBarBackButton',
+          ),
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.pop(
+            context,
+          ),
+        ),
       ),
       backgroundColor: Colors.lightGreen,
       body: BlocBuilder<DayForecastBloc, DayForecastState>(
@@ -122,10 +138,11 @@ class DayForecastView extends StatelessWidget {
                       'No weather data for this date and location',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          backgroundColor: Colors.black,
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                        backgroundColor: Colors.black,
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

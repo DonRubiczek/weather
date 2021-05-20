@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/weather_repository.dart';
@@ -20,10 +21,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     if (event is FindLocationByNameEvent) {
-      yield* mapLocationByNameToState(event);
+      yield* mapLocationByNameToState(
+        event,
+      );
     }
     if (event is FindLocationByCoordinatesEvent) {
-      yield* mapLocationByCoordinatesToState(event);
+      yield* mapLocationByCoordinatesToState(
+        event,
+      );
     }
   }
 
@@ -32,8 +37,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async* {
     yield Loading();
 
-    final result =
-        await weatherRepository.locationSearchByName(event.locationName);
+    final result = await weatherRepository.locationSearchByName(
+      event.locationName,
+    );
 
     if (result.data != null)
       yield LocationsCollected(result.data!);

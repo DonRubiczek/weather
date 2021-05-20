@@ -24,7 +24,9 @@ class LocationsList extends StatelessWidget {
           ...locations
               .map(
                 (location) => LocationsTile(
-                  key: ValueKey(location.lattLong),
+                  key: ValueKey(
+                    location.lattLong,
+                  ),
                   location: location,
                 ),
               )
