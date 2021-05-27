@@ -190,7 +190,7 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'visibility: ${weatherData.visibility?.round().toString()}',
+                      'visibility: ${weatherData.visibility?.round()}',
                       style: context.theme.headline2,
                     ),
                     key: const Key(
@@ -208,7 +208,7 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'air pressure: ${weatherData.airPressure?.round().toString()}',
+                      'air pressure: ${weatherData.airPressure?.round()}',
                       style: context.theme.headline2,
                     ),
                     key: const Key(
@@ -226,7 +226,7 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'predictability: ${weatherData.predictability?.round().toString()}',
+                      'predictability: ${weatherData.predictability?.round()}',
                       key: const Key(
                         'locationWeatherPredictHeaderKey',
                       ),

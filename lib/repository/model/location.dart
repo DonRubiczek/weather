@@ -7,6 +7,9 @@ class Location {
   Location(
       this.title, this.locationType, this.lattLong, this.woeid, this.distance);
 
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
+
   final String title;
   @JsonKey(name: 'location_type')
   final String locationType;
@@ -15,7 +18,5 @@ class Location {
   final int woeid;
   final int? distance;
 
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }

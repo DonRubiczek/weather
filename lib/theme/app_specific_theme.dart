@@ -52,7 +52,6 @@ class BrightAppTheme extends AppTheme {
               backgroundColor: errorColor,
             ),
             toggleableActiveColor: primaryColor,
-            cursorColor: primaryColor,
             primaryColor: primaryColor,
             accentColor: primaryColor,
           )
@@ -127,7 +126,6 @@ class DarkAppTheme extends AppTheme {
               backgroundColor: errorColor,
             ),
             toggleableActiveColor: primaryColor,
-            cursorColor: primaryColor,
             primaryColor: primaryColor,
             accentColor: primaryColor,
           )

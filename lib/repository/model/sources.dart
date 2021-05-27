@@ -6,10 +6,11 @@ part 'sources.g.dart';
 class Sources {
   Sources(this.title, this.url);
 
+  factory Sources.fromJson(Map<String, dynamic> json) =>
+      _$SourcesFromJson(json);
+
   final String title;
   final String url;
 
-  factory Sources.fromJson(Map<String, dynamic> json) =>
-      _$SourcesFromJson(json);
   Map<String, dynamic> toJson() => _$SourcesToJson(this);
 }

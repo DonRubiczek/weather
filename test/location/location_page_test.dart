@@ -307,6 +307,7 @@ void main() {
           testWidgets(
             'renders weather cards',
             (tester) async {
+              var data = getLocationData().consolidatedWeatherData;
               await tester.pumpLocationPage(
                 bloc: bloc,
                 location: location,
@@ -315,7 +316,7 @@ void main() {
                 find.byKey(
                   Key(
                     'locationWeatherCardKey_'
-                    '${getLocationData().consolidatedWeatherData.first.id.toString()}',
+                    '${data.first.id.toString()}',
                   ),
                 ),
                 findsWidgets,

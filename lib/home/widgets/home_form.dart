@@ -44,7 +44,11 @@ class HomeForm extends StatelessWidget {
             color: context.theme.headlineTextColor,
           ),
           labelText: labelText,
-          border: const OutlineInputBorder(),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: context.theme.secondaryColor,
+            ),
+          ),
         ),
         onFieldSubmitted: onFieldSubmitted,
         onTap: controller.clear,

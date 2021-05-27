@@ -7,10 +7,6 @@ class ApiResult<T> {
     this.statusCode,
   );
 
-  final bool wasSuccessful;
-  final T? data;
-  final int? statusCode;
-
   factory ApiResult.fromJson(json) {
     if (json['Data'] != null) {
       return ApiResult(
@@ -26,4 +22,8 @@ class ApiResult<T> {
       );
     }
   }
+
+  final bool wasSuccessful;
+  final T? data;
+  final int? statusCode;
 }

@@ -21,6 +21,9 @@ class LocationData {
       this.lattlong,
       this.timezone);
 
+  factory LocationData.fromJson(Map<String, dynamic> json) =>
+      _$LocationDataFromJson(json);
+
   @JsonKey(name: 'consolidated_weather')
   final List<ConsolidatedWeather> consolidatedWeatherData;
   final String time;
@@ -40,7 +43,5 @@ class LocationData {
   final String lattlong;
   final String timezone;
 
-  factory LocationData.fromJson(Map<String, dynamic> json) =>
-      _$LocationDataFromJson(json);
   Map<String, dynamic> toJson() => _$LocationDataToJson(this);
 }

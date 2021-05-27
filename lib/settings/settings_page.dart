@@ -153,7 +153,7 @@ class SettingsView extends StatelessWidget {
   }
 }
 
-_showAlertDialog(BuildContext context) {
+void _showAlertDialog(BuildContext context) {
   Widget okButton = TextButton(
     child: const Text('ok'),
     onPressed: () => Navigator.pop(

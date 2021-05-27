@@ -10,7 +10,7 @@ Dio initializeDio() {
       receiveTimeout: const Duration(
         seconds: 10,
       ).inMilliseconds,
-      baseUrl: CONSTANTS.BASE_URL,
+      baseUrl: CONSTANTS.baseUrl,
       contentType: Headers.jsonContentType,
       responseType: ResponseType.json,
     ),

@@ -4,11 +4,11 @@ import 'package:weather/utils/constants.dart';
 class SettingsRepository {
   SettingsRepository(this.sharedPreferences) {
     themeId = sharedPreferences.getInt(
-          CONSTANTS.SHARED_PREF_KEY_THEME,
+          CONSTANTS.sharedPrefKeyTheme,
         ) ??
         0;
     metricId = sharedPreferences.getInt(
-          CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+          CONSTANTS.sharedPrefKeyUnitSystem,
         ) ??
         0;
   }
@@ -19,7 +19,7 @@ class SettingsRepository {
 
   Future<bool> setThemeVariable(int id) async {
     var result = await sharedPreferences.setInt(
-      CONSTANTS.SHARED_PREF_KEY_THEME,
+      CONSTANTS.sharedPrefKeyTheme,
       id,
     );
 
@@ -33,7 +33,7 @@ class SettingsRepository {
 
   Future<bool> setMetricVariable(int id) async {
     var result = await sharedPreferences.setInt(
-      CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+      CONSTANTS.sharedPrefKeyUnitSystem,
       id,
     );
     if (result) {

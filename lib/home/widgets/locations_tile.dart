@@ -61,6 +61,7 @@ class LocationsTile extends StatelessWidget {
                 color: context.theme.secondaryColor,
               ),
               Text(
+                // ignore: prefer_interpolation_to_compose_strings
                 '${location.locationType} ' +
                     _prepareLocationLattLongFormat(
                       location.lattLong.split(',').first,
@@ -83,7 +84,7 @@ class LocationsTile extends StatelessWidget {
                       ? 'Distance from: '
                           '${location.distance} metres'
                       : 'Distance from: '
-                          '${(location.distance! / 0.9144).round().toStringAsFixed(0)} yards',
+                          '${(location.distance! / 0.9144).round()} yards',
                   style: TextStyle(
                     color: context.theme.bodyTextColor,
                   ),

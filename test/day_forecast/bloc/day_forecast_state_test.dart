@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:weather/day_forecast/bloc/day_forecast_bloc.dart';
-import 'package:weather/repository/model/consolidated_weather.dart';
 
 import '../../helpers/resources.dart';
 

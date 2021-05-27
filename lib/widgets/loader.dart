@@ -35,6 +35,7 @@ class Loader extends StatefulWidget {
   final double spanRadius;
   final Duration duration;
 
+  @override
   _LoaderState createState() => _LoaderState(centralDotRadius);
 }
 
@@ -109,6 +110,7 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
       }
     });
 
+    // ignore: cascade_invocations
     controller.repeat();
   }
 

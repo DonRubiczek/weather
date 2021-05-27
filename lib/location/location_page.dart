@@ -48,6 +48,7 @@ class LocationPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class LocationView extends StatelessWidget {
   LocationView({
     Key? key,

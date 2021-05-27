@@ -21,6 +21,9 @@ class ConsolidatedWeather {
       this.visibility,
       this.predictability);
 
+  factory ConsolidatedWeather.fromJson(Map<String, dynamic> json) =>
+      _$ConsolidatedWeatherFromJson(json);
+
   final num id;
   @JsonKey(name: 'weather_state_name')
   final String weatherStateName;
@@ -47,7 +50,5 @@ class ConsolidatedWeather {
   final num? visibility;
   final num? predictability;
 
-  factory ConsolidatedWeather.fromJson(Map<String, dynamic> json) =>
-      _$ConsolidatedWeatherFromJson(json);
   Map<String, dynamic> toJson() => _$ConsolidatedWeatherToJson(this);
 }

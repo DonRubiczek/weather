@@ -16,7 +16,7 @@ void main() {
 
       when(
         () => sharedPreferences.setInt(
-          CONSTANTS.SHARED_PREF_KEY_THEME,
+          CONSTANTS.sharedPrefKeyTheme,
           0,
         ),
       ).thenAnswer(
@@ -25,7 +25,7 @@ void main() {
 
       when(
         () => sharedPreferences.setInt(
-          CONSTANTS.SHARED_PREF_KEY_THEME,
+          CONSTANTS.sharedPrefKeyTheme,
           1,
         ),
       ).thenAnswer(
@@ -34,7 +34,7 @@ void main() {
 
       when(
         () => sharedPreferences.setInt(
-          CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+          CONSTANTS.sharedPrefKeyUnitSystem,
           0,
         ),
       ).thenAnswer(
@@ -43,7 +43,7 @@ void main() {
 
       when(
         () => sharedPreferences.setInt(
-          CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+          CONSTANTS.sharedPrefKeyUnitSystem,
           1,
         ),
       ).thenAnswer(
@@ -85,7 +85,7 @@ void main() {
               );
               verify(
                 () => sharedPreferences.setInt(
-                  CONSTANTS.SHARED_PREF_KEY_THEME,
+                  CONSTANTS.sharedPrefKeyTheme,
                   0,
                 ),
               ).called(1);
@@ -103,7 +103,7 @@ void main() {
               );
               verify(
                 () => sharedPreferences.setInt(
-                  CONSTANTS.SHARED_PREF_KEY_THEME,
+                  CONSTANTS.sharedPrefKeyTheme,
                   1,
                 ),
               ).called(1);
@@ -126,7 +126,7 @@ void main() {
               );
               verify(
                 () => sharedPreferences.setInt(
-                  CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+                  CONSTANTS.sharedPrefKeyUnitSystem,
                   0,
                 ),
               ).called(1);
@@ -144,7 +144,7 @@ void main() {
               );
               verify(
                 () => sharedPreferences.setInt(
-                  CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+                  CONSTANTS.sharedPrefKeyUnitSystem,
                   1,
                 ),
               ).called(1);
