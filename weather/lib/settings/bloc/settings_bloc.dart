@@ -28,20 +28,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> mapChangeMetricSystemToState(
     ChangeMetricSystem event,
   ) async* {
-    await settingsRepository.setMetricVariable(
+    var result = await settingsRepository.setMetricVariable(
       event.systemId,
     );
 
-    yield AppSettingsChanged();
+    if (result)
+      yield AppSettingsChanged();
+    else
+      yield Error();
   }
 
   Stream<SettingsState> mapChangeThemeToState(
     ChangeTheme event,
   ) async* {
-    await settingsRepository.setThemeVariable(
+    var result = await settingsRepository.setThemeVariable(
       event.themeId,
     );
 
-    yield AppSettingsChanged();
+    if (result)
+      yield AppSettingsChanged();
+    else
+      yield Error();
   }
 }

@@ -274,7 +274,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'Display weather for location by date:',
+                  'Choose date from the past and display location weather:',
                 ),
                 findsOneWidget,
               );

@@ -42,13 +42,21 @@ class SettingsView extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: BlocBuilder<SettingsBloc, SettingsState>(
-        bloc: BlocProvider.of<SettingsBloc>(context),
+      body: BlocConsumer<SettingsBloc, SettingsState>(
+        buildWhen: (previousState, state) {
+          return state is! Error;
+        },
+        listener: (BuildContext context, state) {
+          if (state is Error) {
+            _showAlertDialog(
+              context,
+            );
+          }
+        },
         builder: (context, state) {
-          if (state is AppSettingsChanged)
-            return buildPage(context);
-          else
-            return buildPage(context);
+          return buildPage(
+            context,
+          );
         },
       ),
     );
@@ -143,4 +151,29 @@ class SettingsView extends StatelessWidget {
       ),
     );
   }
+}
+
+_showAlertDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: const Text('ok'),
+    onPressed: () => Navigator.pop(
+      context,
+    ),
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Error'),
+        content: const Text(
+          'During changing settings occured '
+          'error, please try again later',
+        ),
+        actions: [
+          okButton,
+        ],
+      );
+    },
+  );
 }

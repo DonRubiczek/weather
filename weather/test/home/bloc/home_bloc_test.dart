@@ -31,7 +31,9 @@ void main() {
       test(
         'initial state is SettingsState Initial',
         () {
-          final bloc = HomeBloc(weatherRepository);
+          final bloc = HomeBloc(
+            weatherRepository,
+          );
           expect(
             bloc.state,
             equals(

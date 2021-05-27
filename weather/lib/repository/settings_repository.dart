@@ -17,20 +17,30 @@ class SettingsRepository {
   int? themeId;
   int? metricId;
 
-  Future setThemeVariable(int id) async {
+  Future<bool> setThemeVariable(int id) async {
     var result = await sharedPreferences.setInt(
       CONSTANTS.SHARED_PREF_KEY_THEME,
       id,
     );
 
-    if (result) themeId = id;
+    if (result) {
+      themeId = id;
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  Future setMetricVariable(int id) async {
+  Future<bool> setMetricVariable(int id) async {
     var result = await sharedPreferences.setInt(
       CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
       id,
     );
-    if (result) metricId = id;
+    if (result) {
+      metricId = id;
+      return true;
+    } else {
+      return false;
+    }
   }
 }

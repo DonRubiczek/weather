@@ -52,8 +52,11 @@ void main() {
           final bloc = LocationBloc(
             weatherRepository,
           );
-          verify(
-            () => bloc.state == Initial(),
+          expect(
+            bloc.state,
+            equals(
+              Initial(),
+            ),
           );
         },
       );

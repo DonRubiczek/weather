@@ -15,6 +15,38 @@ void main() {
       setUp(
         () {
           settingsRepository = MockSettingsRepository();
+
+          when(
+            () => settingsRepository.setMetricVariable(0),
+          ).thenAnswer(
+            (_) async {
+              return true;
+            },
+          );
+
+          when(
+            () => settingsRepository.setMetricVariable(2),
+          ).thenAnswer(
+            (_) async {
+              return false;
+            },
+          );
+
+          when(
+            () => settingsRepository.setThemeVariable(0),
+          ).thenAnswer(
+            (_) async {
+              return true;
+            },
+          );
+
+          when(
+            () => settingsRepository.setMetricVariable(2),
+          ).thenAnswer(
+            (_) async {
+              return false;
+            },
+          );
         },
       );
 
@@ -35,20 +67,37 @@ void main() {
         'ChangeTheme',
         () {
           blocTest(
-            'yields app settings changed state after changing theme',
+            'yields app settings changed state after correctly changing theme',
             build: () => SettingsBloc(
               settingsRepository: settingsRepository,
             ),
             act: (SettingsBloc bloc) => bloc.add(
-              ChangeTheme(themeId: 0),
+              ChangeTheme(
+                themeId: 0,
+              ),
             ),
             verify: (SettingsBloc b) => b.state == AppSettingsChanged(),
+          );
+
+          blocTest(
+            'yields error state after incorrectly changing theme',
+            build: () => SettingsBloc(
+              settingsRepository: settingsRepository,
+            ),
+            act: (SettingsBloc bloc) => bloc.add(
+              ChangeTheme(
+                themeId: 2,
+              ),
+            ),
+            verify: (SettingsBloc b) => b.state == Error(),
           );
 
           blocTest<SettingsBloc, SettingsState>(
             'keeps previous state if repository throws error',
             build: () {
-              when(() => settingsRepository.setThemeVariable(0)).thenThrow(
+              when(
+                () => settingsRepository.setThemeVariable(0),
+              ).thenThrow(
                 Exception(),
               );
               return SettingsBloc(settingsRepository: settingsRepository);
@@ -68,7 +117,8 @@ void main() {
         'Change metric system',
         () {
           blocTest(
-            'yields app settings changed state after changing metric system',
+            'yields app settings changed state after correctly '
+            'changing metric system',
             build: () => SettingsBloc(
               settingsRepository: settingsRepository,
             ),
@@ -78,6 +128,19 @@ void main() {
             verify: (SettingsBloc b) => b.state == AppSettingsChanged(),
           );
         },
+      );
+
+      blocTest(
+        'yields error state after incorrectly changing metric system',
+        build: () => SettingsBloc(
+          settingsRepository: settingsRepository,
+        ),
+        act: (SettingsBloc bloc) => bloc.add(
+          ChangeMetricSystem(
+            systemId: 2,
+          ),
+        ),
+        verify: (SettingsBloc b) => b.state == Error(),
       );
     },
   );

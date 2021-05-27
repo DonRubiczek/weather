@@ -41,6 +41,22 @@ void main() {
           );
 
           test(
+            'when states are the same - error',
+            () {
+              final stateA = Error();
+              final stateB = Error();
+              expect(
+                stateA,
+                isNot(
+                  equals(
+                    stateB,
+                  ),
+                ),
+              );
+            },
+          );
+
+          test(
             'when states are different',
             () {
               final stateA = Initial();
@@ -48,7 +64,9 @@ void main() {
               expect(
                 stateA,
                 isNot(
-                  equals(stateB),
+                  equals(
+                    stateB,
+                  ),
                 ),
               );
             },

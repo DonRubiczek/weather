@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:weather/backend/backend.dart';
 import 'package:weather/repository/settings_repository.dart';
 import 'package:weather/settings/bloc/settings_bloc.dart';
 import 'package:weather/settings/settings_page.dart';
@@ -18,16 +19,19 @@ class MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
 
 class MockSettingsRepository extends Mock implements SettingsRepository {}
 
+class MockBackend extends Mock implements AppBackend {}
+
 extension on WidgetTester {
   Future<void>? pumpSettingsPage({
     required SettingsBloc bloc,
+    required SettingsRepository repository,
   }) {
     return pumpApp(
       BlocProvider.value(
         value: bloc,
         child: SettingsView(),
       ),
-      settingsRepository: MockSettingsRepository(),
+      settingsRepository: repository,
     );
   }
 }
@@ -48,10 +52,19 @@ void main() {
     'SettingsView',
     () {
       late SettingsBloc bloc;
+      late SettingsRepository repository;
 
       setUp(
         () {
           bloc = MockSettingsBloc();
+          repository = MockSettingsRepository();
+
+          when(
+            () => repository.metricId,
+          ).thenAnswer(
+            (_) => 0,
+          );
+
           whenListen(
             bloc,
             Stream.fromIterable(
@@ -80,6 +93,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.byType(
@@ -95,6 +109,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.text(
@@ -116,6 +131,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.text(
@@ -131,6 +147,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.byKey(
@@ -148,6 +165,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.byKey(
@@ -165,6 +183,7 @@ void main() {
         (tester) async {
           await tester.pumpSettingsPage(
             bloc: bloc,
+            repository: repository,
           );
           expect(
             find.text(
@@ -178,7 +197,10 @@ void main() {
       testWidgets(
         'renders metric system option',
         (tester) async {
-          await tester.pumpSettingsPage(bloc: bloc);
+          await tester.pumpSettingsPage(
+            bloc: bloc,
+            repository: repository,
+          );
           expect(
             find.byKey(
               const Key(
@@ -193,7 +215,10 @@ void main() {
       testWidgets(
         'renders dark theme option',
         (tester) async {
-          await tester.pumpSettingsPage(bloc: bloc);
+          await tester.pumpSettingsPage(
+            bloc: bloc,
+            repository: repository,
+          );
           expect(
             find.byKey(
               const Key(
@@ -208,7 +233,10 @@ void main() {
       testWidgets(
         'pops up view after clicking back button',
         (tester) async {
-          await tester.pumpSettingsPage(bloc: bloc);
+          await tester.pumpSettingsPage(
+            bloc: bloc,
+            repository: repository,
+          );
           await tester.tap(
             find.byKey(
               const Key(

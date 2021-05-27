@@ -13,6 +13,7 @@ import 'package:weather/home/home_page.dart';
 import 'package:weather/location/location_page.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/model/location_data.dart';
+import 'package:weather/repository/settings_repository.dart';
 import 'package:weather/repository/weather_repository.dart';
 import 'package:weather/settings/settings_page.dart';
 
@@ -26,17 +27,21 @@ class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
 class MockWeatherRepository extends Mock implements WeatherRepository {}
 
+class MockSettingsRepository extends Mock implements SettingsRepository {}
+
 extension on WidgetTester {
   Future<void>? pumpHomePage({
     required HomeBloc bloc,
-    required MockWeatherRepository repository,
+    required WeatherRepository weatherRepository,
+    SettingsRepository? settingsRepository,
   }) {
     return pumpApp(
       BlocProvider.value(
         value: bloc,
         child: HomeView(),
       ),
-      weatherRepository: repository,
+      weatherRepository: weatherRepository,
+      settingsRepository: settingsRepository,
     );
   }
 }
@@ -55,13 +60,15 @@ void main() {
     'HomeView',
     () {
       late HomeBloc bloc;
-      late MockWeatherRepository repository;
+      late WeatherRepository weatherRepository;
+      late SettingsRepository settingsRepository;
       late List<Location> locations;
 
       setUp(
         () {
           bloc = MockHomeBloc();
-          repository = MockWeatherRepository();
+          weatherRepository = MockWeatherRepository();
+          settingsRepository = MockSettingsRepository();
 
           locations = List<Location>.of(
             {
@@ -90,7 +97,15 @@ void main() {
           );
 
           when(
-            () => repository.locationInformation(
+            () => settingsRepository.metricId,
+          ).thenAnswer(
+            (_) {
+              return 0;
+            },
+          );
+
+          when(
+            () => weatherRepository.locationInformation(
               locations.first.woeid.toString(),
             ),
           ).thenAnswer(
@@ -129,7 +144,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.byType(
@@ -145,7 +160,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.text(
@@ -167,7 +182,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.text(
@@ -183,7 +198,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.byKey(
@@ -201,7 +216,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.text(
@@ -217,7 +232,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.byKey(
@@ -235,7 +250,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.byKey(
@@ -253,7 +268,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           expect(
             find.text(
@@ -269,7 +284,8 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
+            settingsRepository: settingsRepository,
           );
           await tester.tap(
             find.byKey(
@@ -293,7 +309,7 @@ void main() {
         (tester) async {
           await tester.pumpHomePage(
             bloc: bloc,
-            repository: repository,
+            weatherRepository: weatherRepository,
           );
           await tester.tap(
             find.byKey(
