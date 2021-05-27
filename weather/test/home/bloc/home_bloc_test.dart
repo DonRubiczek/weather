@@ -10,18 +10,76 @@ class MockWeatherRepository extends Mock implements WeatherRepository {}
 
 void main() {
   group(
-    'SettingsBloc',
+    'HomeBloc',
     () {
       late WeatherRepository weatherRepository;
 
       setUp(
         () {
           weatherRepository = MockWeatherRepository();
+
+          when(
+            () => weatherRepository.locationSearchByName(
+              'BlablaBlablaBlablaBlablaBlablaBlabla',
+            ),
+          ).thenAnswer(
+            (_) async {
+              return ApiResult(
+                true,
+                [],
+                200,
+              );
+            },
+          );
+
+          when(
+            () => weatherRepository.locationSearchByName(
+              'London',
+            ),
+          ).thenAnswer(
+            (_) async {
+              return ApiResult(
+                true,
+                [
+                  Location(
+                    'London',
+                    'locationType1',
+                    'lattLong1',
+                    1,
+                    1,
+                  ),
+                ],
+                200,
+              );
+            },
+          );
+
+          when(
+            () => weatherRepository.locationSearchByCoordinates(
+              '12',
+              '22',
+            ),
+          ).thenAnswer(
+            (_) async => ApiResult(
+                true,
+                [
+                  Location(
+                    'London',
+                    'City',
+                    '51.506321,-0.12714',
+                    44418,
+                    null,
+                  )
+                ],
+                200),
+          );
         },
       );
 
       test('can be instantiated', () {
-        final bloc = HomeBloc(weatherRepository);
+        final bloc = HomeBloc(
+          weatherRepository,
+        );
         expect(
           bloc,
           isNotNull,
@@ -59,7 +117,7 @@ void main() {
           );
 
           blocTest(
-            'yields locations collected with no empty locations list if'
+            'yields locations collected with not empty locations list if'
             ' any locations match added searching name',
             build: () => HomeBloc(weatherRepository),
             act: (HomeBloc bloc) => bloc.add(
@@ -73,11 +131,11 @@ void main() {
                   [
                     Location(
                       'London',
-                      'City',
-                      '51.506321,-0.12714',
-                      44418,
-                      null,
-                    )
+                      'locationType1',
+                      'lattLong1',
+                      1,
+                      1,
+                    ),
                   ],
                 ),
           );
@@ -110,26 +168,6 @@ void main() {
             'yields locations collected with locations list'
             ' containing 1 nearest lostaion to added coordinates',
             build: () {
-              when(
-                () => weatherRepository.locationSearchByCoordinates(
-                  '12',
-                  '22',
-                ),
-              ).thenAnswer(
-                (_) async => ApiResult(
-                    true,
-                    [
-                      Location(
-                        'London',
-                        'City',
-                        '51.506321,-0.12714',
-                        44418,
-                        null,
-                      )
-                    ],
-                    200),
-              );
-
               return HomeBloc(weatherRepository);
             },
             act: (HomeBloc bloc) => bloc.add(

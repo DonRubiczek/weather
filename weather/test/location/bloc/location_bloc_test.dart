@@ -30,6 +30,18 @@ void main() {
               200,
             ),
           );
+
+          when(
+            () => weatherRepository.locationInformation(
+              '1122221111222211',
+            ),
+          ).thenAnswer(
+            (_) async => ApiResult(
+              false,
+              null,
+              400,
+            ),
+          );
         },
       );
 
@@ -65,7 +77,8 @@ void main() {
         'GetLocationData',
         () {
           blocTest(
-            'yields location data collected state after getting data',
+            'yields location data collected state after'
+            'correctly getting data',
             build: () => LocationBloc(
               weatherRepository,
             ),
@@ -79,6 +92,20 @@ void main() {
                 LocationDataCollected(
                   getLocationData(),
                 ),
+          );
+
+          blocTest(
+            'yields error state if no'
+            'data with added id found',
+            build: () => LocationBloc(
+              weatherRepository,
+            ),
+            act: (LocationBloc bloc) => bloc.add(
+              GetLocationData(
+                locationId: '1122221111222211',
+              ),
+            ),
+            verify: (LocationBloc b) => b.state == Error(),
           );
 
           blocTest<LocationBloc, LocationState>(
@@ -110,7 +137,8 @@ void main() {
         'NavigateToLocationForecast',
         () {
           blocTest(
-            'yields location data collected state after getting data',
+            'yields navigate state after correctly preccessing'
+            'navigate to location forecast request',
             build: () => LocationBloc(
               weatherRepository,
             ),
