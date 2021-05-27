@@ -66,7 +66,6 @@ class HomeView extends StatelessWidget {
         ),
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
-        bloc: BlocProvider.of<HomeBloc>(context),
         builder: (context, state) {
           if (state is Error)
             return _buildPage(
