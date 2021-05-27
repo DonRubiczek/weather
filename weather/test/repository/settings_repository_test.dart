@@ -1,21 +1,60 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/repository/settings_repository.dart';
 import 'package:weather/utils/constants.dart';
+
+class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
   late SharedPreferences sharedPreferences;
   late SettingsRepository settingsRepository;
 
-  setUp(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences.setMockInitialValues({});
-    sharedPreferences = await SharedPreferences.getInstance();
-    settingsRepository = SettingsRepository(
-      sharedPreferences,
-    );
-  });
+  setUp(
+    () async {
+      sharedPreferences = MockSharedPreferences();
+
+      when(
+        () => sharedPreferences.setInt(
+          CONSTANTS.SHARED_PREF_KEY_THEME,
+          0,
+        ),
+      ).thenAnswer(
+        (_) async => true,
+      );
+
+      when(
+        () => sharedPreferences.setInt(
+          CONSTANTS.SHARED_PREF_KEY_THEME,
+          1,
+        ),
+      ).thenAnswer(
+        (_) async => false,
+      );
+
+      when(
+        () => sharedPreferences.setInt(
+          CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+          0,
+        ),
+      ).thenAnswer(
+        (_) async => true,
+      );
+
+      when(
+        () => sharedPreferences.setInt(
+          CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+          1,
+        ),
+      ).thenAnswer(
+        (_) async => false,
+      );
+
+      settingsRepository = SettingsRepository(
+        sharedPreferences,
+      );
+    },
+  );
 
   group(
     'SettingsRepository',
@@ -36,7 +75,7 @@ void main() {
         'Set theme',
         () {
           test(
-            'theme id variable is set to 0'
+            'theme id variable is set to 0 '
             'if operation call succeeds',
             () async {
               await settingsRepository.setThemeVariable(0);
@@ -44,27 +83,30 @@ void main() {
                 settingsRepository.themeId,
                 0,
               );
-              expect(
-                settingsRepository.sharedPreferences.getInt(
+              verify(
+                () => sharedPreferences.setInt(
                   CONSTANTS.SHARED_PREF_KEY_THEME,
+                  0,
                 ),
-                0,
-              );
+              ).called(1);
             },
           );
 
           test(
-            'theme id variable is set to 1'
-            'if operation call succeeds',
+            'theme id variable is set to 0'
+            'if operation call does not succeed',
             () async {
               await settingsRepository.setThemeVariable(1);
-              expect(settingsRepository.themeId, 1);
               expect(
-                settingsRepository.sharedPreferences.getInt(
-                  CONSTANTS.SHARED_PREF_KEY_THEME,
-                ),
-                1,
+                settingsRepository.themeId,
+                0,
               );
+              verify(
+                () => sharedPreferences.setInt(
+                  CONSTANTS.SHARED_PREF_KEY_THEME,
+                  1,
+                ),
+              ).called(1);
             },
           );
         },
@@ -82,30 +124,30 @@ void main() {
                 settingsRepository.metricId,
                 0,
               );
-              expect(
-                settingsRepository.sharedPreferences.getInt(
+              verify(
+                () => sharedPreferences.setInt(
                   CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+                  0,
                 ),
-                0,
-              );
+              ).called(1);
             },
           );
 
           test(
-            'metric system id variable is set to 1 '
-            'if operation call succeeds',
+            'metric system id variable is set to 0 '
+            'if operation call does not succeed',
             () async {
               await settingsRepository.setMetricVariable(1);
               expect(
                 settingsRepository.metricId,
-                1,
+                0,
               );
-              expect(
-                settingsRepository.sharedPreferences.getInt(
+              verify(
+                () => sharedPreferences.setInt(
                   CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
+                  1,
                 ),
-                1,
-              );
+              ).called(1);
             },
           );
         },

@@ -5,13 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:weather/location/bloc/location_bloc.dart';
 import 'package:weather/location/location_page.dart';
-import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/repository/model/location.dart';
-import 'package:weather/repository/model/location_data.dart';
-import 'package:weather/repository/model/parent.dart';
-import 'package:weather/repository/model/sources.dart';
 
 import '../helpers/pump_app.dart';
+import '../helpers/resources.dart';
 
 class FakeLocationEvent extends Fake implements LocationEvent {}
 
@@ -68,7 +65,7 @@ void main() {
             Stream.fromIterable(
               [
                 LocationDataCollected(
-                  _getLocationData(),
+                  getLocationData(),
                 ),
               ],
             ),
@@ -128,10 +125,10 @@ void main() {
       );
 
       group(
-        'Renders location data headers',
+        'Renders headers filled with location data',
         () {
           testWidgets(
-            'renders location headers',
+            'renders all page headers',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -159,7 +156,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'location type: ${_getLocationData().locationType}',
+                  'location type: ${getLocationData().locationType}',
                 ),
                 findsOneWidget,
               );
@@ -175,7 +172,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'lattitude: ${_getLocationData().lattlong.split(',').first}',
+                  'lattitude: ${getLocationData().lattlong.split(',').first}',
                 ),
                 findsOneWidget,
               );
@@ -191,7 +188,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'longitude: ${_getLocationData().lattlong.split(',').last}',
+                  'longitude: ${getLocationData().lattlong.split(',').last}',
                 ),
                 findsOneWidget,
               );
@@ -207,8 +204,8 @@ void main() {
               );
               expect(
                 find.text(
-                  'timezone: ${_getLocationData().timezone}'
-                  '-${_getLocationData().timezoneName}',
+                  'timezone: ${getLocationData().timezone}'
+                  '-${getLocationData().timezoneName}',
                 ),
                 findsOneWidget,
               );
@@ -224,7 +221,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'time: ${_getLocationData().time}',
+                  'time: ${getLocationData().time}',
                 ),
                 findsOneWidget,
               );
@@ -240,7 +237,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'sun rise: ${_getLocationData().sunRise}',
+                  'sun rise: ${getLocationData().sunRise}',
                 ),
                 findsOneWidget,
               );
@@ -256,7 +253,7 @@ void main() {
               );
               expect(
                 find.text(
-                  'sun set: ${_getLocationData().sunSet}',
+                  'sun set: ${getLocationData().sunSet}',
                 ),
                 findsOneWidget,
               );
@@ -308,7 +305,7 @@ void main() {
         'Renders location weather cards with data',
         () {
           testWidgets(
-            'renders all location weather cards',
+            'renders weather cards',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -316,19 +313,18 @@ void main() {
               );
               expect(
                 find.byKey(
-                  const Key(
-                    'locationWeatherCardKey',
+                  Key(
+                    'locationWeatherCardKey_'
+                    '${getLocationData().consolidatedWeatherData.first.id.toString()}',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - SKY',
+            'renders weather cards header - SKY',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -340,15 +336,13 @@ void main() {
                     'locationWeatherSkyHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - WIND',
+            'renders weather cards header - WIND',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -360,15 +354,13 @@ void main() {
                     'locationWeatherWindHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - TEMP',
+            'renders weather cards header - TEMP',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -380,15 +372,13 @@ void main() {
                     'locationWeatherTempHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - HUMIDITY',
+            'renders weather cards header - HUMIDITY',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -400,15 +390,13 @@ void main() {
                     'locationWeatherHumidityHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - VISIBILITY',
+            'renders weather cards header - VISIBILITY',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -420,15 +408,13 @@ void main() {
                     'locationWeatherVisibilityHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - AIR PRESSURE',
+            'renders weather cards headers - AIR PRESSURE',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -440,15 +426,13 @@ void main() {
                     'locationWeatherAirPressureHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
 
           testWidgets(
-            'renders all weather headers - PREDICTABILITY',
+            'renders weather cards header - PREDICTABILITY',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -460,9 +444,7 @@ void main() {
                     'locationWeatherPredictHeaderKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().consolidatedWeatherData.length,
-                ),
+                findsWidgets,
               );
             },
           );
@@ -489,7 +471,7 @@ void main() {
           );
 
           testWidgets(
-            'renders all sources',
+            'renders elements in sources section',
             (tester) async {
               await tester.pumpLocationPage(
                 bloc: bloc,
@@ -501,9 +483,7 @@ void main() {
                     'locationSourceTileKey',
                   ),
                 ),
-                findsNWidgets(
-                  _getLocationData().sources.length,
-                ),
+                findsWidgets,
               );
             },
           );
@@ -534,136 +514,5 @@ void main() {
         },
       );
     },
-  );
-}
-
-LocationData _getLocationData() {
-  var sources = <Sources>[
-    //Sources("BBC", "http,//www.bbc.co.uk/weather/"),
-    //Sources("Forecast.io", "http,//forecast.io/"),
-    Sources(
-      'Weather Underground',
-      'https,//www.wunderground.com/?apiref=fc30dc3cd224e19b',
-    ),
-    //Sources("World Weather Online", "http,//www.worldweatheronline.com/"),
-    Sources(
-      'OpenWeatherMap',
-      'http,//openweathermap.org/',
-    ),
-    Sources(
-      'HAMweather',
-      'http,//www.hamweather.com',
-    ),
-    Sources(
-      'Met Office',
-      'http,//www.metoffice.gov.uk/',
-    ),
-  ];
-  var parent = Parent(
-    'England',
-    'Region / State / Province',
-    '52.883560,-1.974060',
-    24554868,
-  );
-
-  var consolidatedWeatherList = [
-    ConsolidatedWeather(
-      6458195808616448,
-      'Light Rain',
-      'lr',
-      'ESE',
-      '2021-05-13T15,32,02.331662Z',
-      '2021-05-13',
-      8.215,
-      13.395,
-      11.71,
-      4.724408115034863,
-      106.1685937400188,
-      1006.0,
-      84,
-      8.81694653225165,
-      75,
-    ),
-    ConsolidatedWeather(
-      6128491704614912,
-      'Light Rain',
-      'lr',
-      'NNE',
-      '2021-05-13T15,32,02.746506Z',
-      '2021-05-14',
-      7.130000000000001,
-      15.455,
-      13.28,
-      4.313319697598028,
-      30.29213361107689,
-      1009.5,
-      69,
-      11.40154000636284,
-      75,
-    ),
-    ConsolidatedWeather(
-      5590954569367552,
-      'Light Rain',
-      'lr',
-      'SSW',
-      '2021-05-13T15,32,03.152174Z',
-      '2021-05-15',
-      8.265,
-      13.6,
-      12.3,
-      5.34320908801665,
-      210.91901171401153,
-      1001.0,
-      79,
-      11.046115684403086,
-      75,
-    ),
-    // ConsolidatedWeather(
-    //     6181386139467776,
-    //     "Light Rain",
-    //     "lr",
-    //     "SW",
-    //     "2021-05-13T15,32,02.491613Z",
-    //     "2021-05-16",
-    //     7.48,
-    //     14.030000000000001,
-    //     14.075,
-    //     8.17269706152337,
-    //     223.6666365779404,
-    //     999.0,
-    //     75,
-    //     8.426104052334367,
-    //     75),
-    // ConsolidatedWeather(
-    //     5139171757785088,
-    //     "Light Rain",
-    //     "lr",
-    //     "W",
-    //     "2021-05-13T15,32,02.952686Z",
-    //     "2021-05-17",
-    //     8.955,
-    //     14.21,
-    //     14.245000000000001,
-    //     7.908148727543147,
-    //     268.6677210568365,
-    //     1002.5,
-    //     76,
-    //     11.81413047800843,
-    //     75)
-  ];
-
-  return LocationData(
-    consolidatedWeatherList,
-    '2021-05-13T19,12,24.118975+01,00',
-    '2021-05-13T05,11,30.918760+01,00',
-    '2021-05-13T20,43,11.255541+01,00',
-    'LMT',
-    parent,
-    sources,
-    'London',
-    'City',
-    44418,
-    '51.506321,-0.12714',
-    'Europe/London',
   );
 }

@@ -3,11 +3,11 @@ import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/model/location_data.dart';
 
 class EntityFactory {
-  static T generateOBJ<T>(
+  static T? generateOBJ<T>(
     json,
   ) {
     if (json == null) {
-      return '' as T;
+      return null;
     } else if (T.toString() == 'ConsolidatedWeather') {
       return ConsolidatedWeather.fromJson(
         json,
@@ -33,7 +33,7 @@ class EntityFactory {
         ),
       ) as T;
     } else {
-      return json as T;
+      return null;
     }
   }
 }

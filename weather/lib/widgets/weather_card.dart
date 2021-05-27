@@ -11,8 +11,8 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: const Key(
-        'locationWeatherCardKey',
+      key: Key(
+        'locationWeatherCardKey_${weatherData.id}',
       ),
       width: 300,
       decoration: BoxDecoration(

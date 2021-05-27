@@ -18,18 +18,19 @@ class SettingsRepository {
   int? metricId;
 
   Future setThemeVariable(int id) async {
-    await sharedPreferences.setInt(
+    var result = await sharedPreferences.setInt(
       CONSTANTS.SHARED_PREF_KEY_THEME,
       id,
     );
-    themeId = id;
+
+    if (result) themeId = id;
   }
 
   Future setMetricVariable(int id) async {
-    await sharedPreferences.setInt(
+    var result = await sharedPreferences.setInt(
       CONSTANTS.SHARED_PREF_KEY_UNIT_SYSTEM,
       id,
     );
-    metricId = id;
+    if (result) metricId = id;
   }
 }

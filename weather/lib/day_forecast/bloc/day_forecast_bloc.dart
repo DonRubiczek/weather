@@ -31,10 +31,14 @@ class DayForecastBloc extends Bloc<DayForecastEvent, DayForecastState> {
     yield Loading();
 
     final result = await weatherRepository.locationDayInformation(
-        event.locationId, event.date);
+      event.locationId,
+      event.date,
+    );
 
     if (result.data != null)
-      yield DayForecastCollected(result.data!);
+      yield DayForecastCollected(
+        result.data!,
+      );
     else
       yield Error();
   }

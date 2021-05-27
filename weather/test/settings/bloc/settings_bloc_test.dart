@@ -18,20 +18,15 @@ void main() {
         },
       );
 
-      test('can be instantiated', () {
-        final bloc = SettingsBloc(settingsRepository: settingsRepository);
-        expect(bloc, isNotNull);
-      });
-
       test(
-        'initial state is SettingsState Initial',
+        'can be instantiated',
         () {
-          final bloc = SettingsBloc(settingsRepository: settingsRepository);
+          final bloc = SettingsBloc(
+            settingsRepository: settingsRepository,
+          );
           expect(
-            bloc.state,
-            equals(
-              Initial(),
-            ),
+            bloc,
+            isNotNull,
           );
         },
       );
@@ -41,7 +36,9 @@ void main() {
         () {
           blocTest(
             'yields app settings changed state after changing theme',
-            build: () => SettingsBloc(settingsRepository: settingsRepository),
+            build: () => SettingsBloc(
+              settingsRepository: settingsRepository,
+            ),
             act: (SettingsBloc bloc) => bloc.add(
               ChangeTheme(themeId: 0),
             ),
@@ -58,7 +55,9 @@ void main() {
             },
             seed: () => AppSettingsChanged(),
             act: (b) => b.add(
-              ChangeTheme(themeId: 0),
+              ChangeTheme(
+                themeId: 0,
+              ),
             ),
             verify: (SettingsBloc b) => b.state == Initial(),
           );
@@ -70,7 +69,9 @@ void main() {
         () {
           blocTest(
             'yields app settings changed state after changing metric system',
-            build: () => SettingsBloc(settingsRepository: settingsRepository),
+            build: () => SettingsBloc(
+              settingsRepository: settingsRepository,
+            ),
             act: (SettingsBloc bloc) => bloc.add(
               ChangeMetricSystem(systemId: 0),
             ),

@@ -5,6 +5,7 @@ import 'package:weather/backend/backend.dart';
 import 'package:weather/backend/globals.dart';
 import 'package:weather/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/home/widgets/home_form.dart';
 import 'package:weather/home/widgets/locations_list.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/settings/settings_page.dart';
@@ -31,7 +32,6 @@ class HomePage extends StatelessWidget {
 }
 
 class HomeView extends StatelessWidget {
-  late AnimationController animationController;
   final latitudeController = TextEditingController();
   final longitudeController = TextEditingController();
   final nameController = TextEditingController();
@@ -69,13 +69,18 @@ class HomeView extends StatelessWidget {
         bloc: BlocProvider.of<HomeBloc>(context),
         builder: (context, state) {
           if (state is Error)
-            return ErrorCard(
-              errorMessage: '',
+            return _buildPage(
+              context,
+              null,
+              ErrorCard(
+                errorMessage: '',
+              ),
             );
           else if (state is LocationsCollected)
             return _buildPage(
               context,
               state.locations,
+              null,
             );
           else if (state is Loading) {
             return Loader();
@@ -83,13 +88,18 @@ class HomeView extends StatelessWidget {
             return _buildPage(
               context,
               null,
+              null,
             );
         },
       ),
     );
   }
 
-  Widget _buildPage(BuildContext context, List<Location>? locations) {
+  Widget _buildPage(
+    BuildContext context,
+    List<Location>? locations,
+    Widget? errorCard,
+  ) {
     final node = FocusScope.of(context);
     final focus = FocusNode();
 
@@ -223,61 +233,13 @@ class HomeView extends StatelessWidget {
             if (locations != null)
               LocationsList(
                 locations: locations,
-              )
+              ),
+            const SizedBox(
+              height: 10,
+            ),
+            errorCard ?? Container(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomeForm extends StatelessWidget {
-  HomeForm({
-    Key? key,
-    this.formKey,
-    this.formFieldKey,
-    required this.controller,
-    this.textInputAction,
-    this.textInputType,
-    this.validator,
-    required this.labelText,
-    required this.onFieldSubmitted,
-    this.focus,
-  }) : super(key: key);
-
-  final Key? formKey;
-  final Key? formFieldKey;
-  final TextInputType? textInputType;
-  final TextInputAction? textInputAction;
-  final TextEditingController controller;
-  final String labelText;
-  final FocusNode? focus;
-  final Function(String) onFieldSubmitted;
-  final String? Function(String?)? validator;
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: TextFormField(
-        key: formFieldKey,
-        style: TextStyle(
-          color: context.theme.headlineTextColor,
-        ),
-        keyboardType: textInputType,
-        textInputAction: textInputAction,
-        validator: validator,
-        focusNode: focus,
-        controller: controller,
-        decoration: InputDecoration(
-          labelStyle: TextStyle(
-            color: context.theme.headlineTextColor,
-          ),
-          labelText: labelText,
-          border: const OutlineInputBorder(),
-        ),
-        onFieldSubmitted: onFieldSubmitted,
-        onTap: controller.clear,
       ),
     );
   }

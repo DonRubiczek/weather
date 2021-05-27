@@ -78,9 +78,15 @@ void main() {
           whenListen(
             bloc,
             Stream.fromIterable(
-              [LocationsCollected(locations)],
+              [
+                LocationsCollected(
+                  locations,
+                )
+              ],
             ),
-            initialState: LocationsCollected(locations),
+            initialState: LocationsCollected(
+              locations,
+            ),
           );
 
           when(
@@ -98,7 +104,11 @@ void main() {
               var location = EntityFactory.generateOBJ<LocationData>(
                 jsonData,
               );
-              return ApiResult(true, location, 200);
+              return ApiResult(
+                true,
+                location,
+                200,
+              );
             },
           );
         },
@@ -122,7 +132,9 @@ void main() {
             repository: repository,
           );
           expect(
-            find.byType(HomeView),
+            find.byType(
+              HomeView,
+            ),
             findsOneWidget,
           );
         },
@@ -136,11 +148,15 @@ void main() {
             repository: repository,
           );
           expect(
-            find.text('Weather'),
+            find.text(
+              'Weather',
+            ),
             findsOneWidget,
           );
           expect(
-            find.byIcon(Icons.settings),
+            find.byIcon(
+              Icons.settings,
+            ),
             findsOneWidget,
           );
         },
@@ -240,7 +256,9 @@ void main() {
             repository: repository,
           );
           expect(
-            find.text('San Marino'),
+            find.text(
+              'San Marino',
+            ),
             findsOneWidget,
           );
         },
@@ -262,7 +280,9 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(
-            find.byType(SettingsView),
+            find.byType(
+              SettingsView,
+            ),
             findsOneWidget,
           );
         },
@@ -284,7 +304,9 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(
-            find.byType(LocationView),
+            find.byType(
+              LocationView,
+            ),
             findsOneWidget,
           );
         },

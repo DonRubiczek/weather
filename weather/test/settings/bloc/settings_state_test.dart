@@ -6,7 +6,7 @@ void main() {
     'SettingsState',
     () {
       group(
-        'supports value equality',
+        'does not support value equality',
         () {
           test(
             'when states are the same - initial',
@@ -15,7 +15,27 @@ void main() {
               final stateB = Initial();
               expect(
                 stateA,
-                equals(stateB),
+                isNot(
+                  equals(
+                    stateB,
+                  ),
+                ),
+              );
+            },
+          );
+
+          test(
+            'when states are the same - appsettingschanged',
+            () {
+              final stateA = AppSettingsChanged();
+              final stateB = AppSettingsChanged();
+              expect(
+                stateA,
+                isNot(
+                  equals(
+                    stateB,
+                  ),
+                ),
               );
             },
           );

@@ -42,7 +42,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
 
     if (result.data != null)
-      yield LocationsCollected(result.data!);
+      yield LocationsCollected(
+        result.data!,
+      );
     else
       yield Error();
   }

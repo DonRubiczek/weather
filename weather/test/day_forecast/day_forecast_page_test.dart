@@ -5,10 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:weather/day_forecast/bloc/day_forecast_bloc.dart';
 import 'package:weather/day_forecast/day_forecast_page.dart';
-import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/repository/model/location.dart';
 
 import '../helpers/pump_app.dart';
+import '../helpers/resources.dart';
 
 class FakeDayForecastEvent extends Fake implements DayForecastEvent {}
 
@@ -66,12 +66,12 @@ void main() {
             Stream.fromIterable(
               [
                 DayForecastCollected(
-                  _getConsolidatedWeatherList(),
+                  getConsolidatedWeatherList(),
                 ),
               ],
             ),
             initialState: DayForecastCollected(
-              _getConsolidatedWeatherList(),
+              getConsolidatedWeatherList(),
             ),
           );
         },
@@ -112,7 +112,7 @@ void main() {
       );
 
       testWidgets(
-        'renders all weather cards',
+        'renders elements on weather cards list',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -121,19 +121,18 @@ void main() {
           );
           expect(
             find.byKey(
-              const Key(
-                'locationWeatherCardKey',
+              Key(
+                'locationWeatherCardKey_'
+                '${getConsolidatedWeatherList().first.id}',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - SKY',
+        'renders SKY header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -146,15 +145,13 @@ void main() {
                 'locationWeatherSkyHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - WIND',
+        'renders WIND header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -167,15 +164,13 @@ void main() {
                 'locationWeatherWindHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - TEMP',
+        'renders TEMP header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -188,15 +183,13 @@ void main() {
                 'locationWeatherTempHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - HUMIDITY',
+        'renders HUMIDITY header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -209,15 +202,13 @@ void main() {
                 'locationWeatherHumidityHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - VISIBILITY',
+        'renders VISIBILITY header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -230,15 +221,13 @@ void main() {
                 'locationWeatherVisibilityHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
       testWidgets(
-        'renders all weather headers - AIR PRESSURE',
+        'renders AIR PRESSURE header on cards',
         (tester) async {
           await tester.pumpDayForecastView(
             bloc: bloc,
@@ -251,33 +240,29 @@ void main() {
                 'locationWeatherAirPressureHeaderKey',
               ),
             ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
+            findsWidgets,
           );
         },
       );
 
-      testWidgets(
-        'renders all weather headers - PREDICTABILITY',
-        (tester) async {
-          await tester.pumpDayForecastView(
-            bloc: bloc,
-            location: location,
-            date: date,
-          );
-          expect(
-            find.byKey(
-              const Key(
-                'locationWeatherPredictHeaderKey',
-              ),
-            ),
-            findsNWidgets(
-              _getConsolidatedWeatherList().length,
-            ),
-          );
-        },
-      );
+      // testWidgets(
+      //   'renders last element of weather cards list id - 5139171757785088',
+      //   (tester) async {
+      //     await tester.pumpDayForecastView(
+      //       bloc: bloc,
+      //       location: location,
+      //       date: date,
+      //     );
+      //     await tester.ensureVisible(
+      //       find.byKey(
+      //         const Key(
+      //           'locationWeatherCardKey_5139171757785088',
+      //         ),
+      //         skipOffstage: false,
+      //       ),
+      //     );
+      //   },
+      // );
 
       testWidgets(
         'pops up view after clicking back button',
@@ -305,92 +290,4 @@ void main() {
       );
     },
   );
-}
-
-List<ConsolidatedWeather> _getConsolidatedWeatherList() {
-  return [
-    ConsolidatedWeather(
-      6458195808616448,
-      'Light Rain',
-      'lr',
-      'ESE',
-      '2021-05-13T15,32,02.331662Z',
-      '2021-05-13',
-      8.215,
-      13.395,
-      11.71,
-      4.724408115034863,
-      106.1685937400188,
-      1006.0,
-      84,
-      8.81694653225165,
-      75,
-    ),
-    ConsolidatedWeather(
-      6128491704614912,
-      'Light Rain',
-      'lr',
-      'NNE',
-      '2021-05-13T15,32,02.746506Z',
-      '2021-05-14',
-      7.130000000000001,
-      15.455,
-      13.28,
-      4.313319697598028,
-      30.29213361107689,
-      1009.5,
-      69,
-      11.40154000636284,
-      75,
-    ),
-    ConsolidatedWeather(
-      5590954569367552,
-      'Light Rain',
-      'lr',
-      'SSW',
-      '2021-05-13T15,32,03.152174Z',
-      '2021-05-15',
-      8.265,
-      13.6,
-      12.3,
-      5.34320908801665,
-      210.91901171401153,
-      1001.0,
-      79,
-      11.046115684403086,
-      75,
-    ),
-    // ConsolidatedWeather(
-    //     6181386139467776,
-    //     "Light Rain",
-    //     "lr",
-    //     "SW",
-    //     "2021-05-13T15,32,02.491613Z",
-    //     "2021-05-16",
-    //     7.48,
-    //     14.030000000000001,
-    //     14.075,
-    //     8.17269706152337,
-    //     223.6666365779404,
-    //     999.0,
-    //     75,
-    //     8.426104052334367,
-    //     75),
-    // ConsolidatedWeather(
-    //     5139171757785088,
-    //     "Light Rain",
-    //     "lr",
-    //     "W",
-    //     "2021-05-13T15,32,02.952686Z",
-    //     "2021-05-17",
-    //     8.955,
-    //     14.21,
-    //     14.245000000000001,
-    //     7.908148727543147,
-    //     268.6677210568365,
-    //     1002.5,
-    //     76,
-    //     11.81413047800843,
-    //     75)
-  ];
 }

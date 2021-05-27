@@ -206,7 +206,7 @@ class LocationView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const Text(
-              'Display weather for location by date:',
+              'Choose date from the past and display location weather:',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -255,7 +255,7 @@ class LocationView extends StatelessWidget {
     final picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(2015),
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != selectedDate) selectedDate = picked;

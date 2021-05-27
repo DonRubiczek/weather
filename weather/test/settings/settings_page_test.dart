@@ -82,7 +82,9 @@ void main() {
             bloc: bloc,
           );
           expect(
-            find.byType(SettingsView),
+            find.byType(
+              SettingsView,
+            ),
             findsOneWidget,
           );
         },
@@ -95,7 +97,9 @@ void main() {
             bloc: bloc,
           );
           expect(
-            find.text('Settings'),
+            find.text(
+              'Settings',
+            ),
             findsOneWidget,
           );
           expect(
@@ -114,7 +118,9 @@ void main() {
             bloc: bloc,
           );
           expect(
-            find.text('Theme'),
+            find.text(
+              'Theme',
+            ),
             findsOneWidget,
           );
         },
@@ -212,7 +218,9 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(
-            find.byType(SettingsView),
+            find.byType(
+              SettingsView,
+            ),
             findsNothing,
           );
         },

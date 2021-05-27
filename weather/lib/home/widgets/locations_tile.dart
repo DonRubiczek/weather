@@ -6,7 +6,7 @@ import 'package:weather/location/location_page.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/theme/app_specific_theme.dart';
 
-class LocationsTile extends StatefulWidget {
+class LocationsTile extends StatelessWidget {
   const LocationsTile({
     Key? key,
     required this.location,
@@ -15,20 +15,13 @@ class LocationsTile extends StatefulWidget {
   final Location location;
 
   @override
-  _LocationsTileState createState() => _LocationsTileState();
-}
-
-class _LocationsTileState extends State<LocationsTile> {
-  bool checked = false;
-
-  @override
   Widget build(BuildContext context) {
     return ListTile(
       key: const Key('locationListTile'),
       onTap: () => Navigator.push(
         context,
         LocationPage.route(
-          location: widget.location,
+          location: location,
         ),
       ),
       contentPadding: const EdgeInsets.symmetric(
@@ -53,7 +46,7 @@ class _LocationsTileState extends State<LocationsTile> {
         ),
       ),
       title: Text(
-        '${widget.location.title}',
+        '${location.title}',
         style: TextStyle(
           color: context.theme.bodyTextColor,
           fontWeight: FontWeight.bold,
@@ -68,14 +61,14 @@ class _LocationsTileState extends State<LocationsTile> {
                 color: context.theme.secondaryColor,
               ),
               Text(
-                '${widget.location.locationType} ' +
+                '${location.locationType} ' +
                     _prepareLocationLattLongFormat(
-                      widget.location.lattLong.split(',').first,
+                      location.lattLong.split(',').first,
                       0,
                     ) +
                     ' ' +
                     _prepareLocationLattLongFormat(
-                      widget.location.lattLong.split(',').last,
+                      location.lattLong.split(',').last,
                       1,
                     ),
                 style: TextStyle(
@@ -84,13 +77,13 @@ class _LocationsTileState extends State<LocationsTile> {
               )
             ],
           ),
-          widget.location.distance != null
+          location.distance != null
               ? Text(
                   context.read<Backend>().settingsRepository.metricId == 0
                       ? 'Distance from: '
-                          '${widget.location.distance} metres'
+                          '${location.distance} metres'
                       : 'Distance from: '
-                          '${(widget.location.distance! / 0.9144).round().toStringAsFixed(0)} yards',
+                          '${(location.distance! / 0.9144).round().toStringAsFixed(0)} yards',
                   style: TextStyle(
                     color: context.theme.bodyTextColor,
                   ),
