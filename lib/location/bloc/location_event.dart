@@ -11,12 +11,3 @@ class GetLocationData extends LocationEvent {
   @override
   List<Object?> get props => [locationId];
 }
-
-class NavigateToLocationForecast extends LocationEvent {
-  NavigateToLocationForecast({required this.date});
-
-  final String date;
-
-  @override
-  List<Object?> get props => [date];
-}

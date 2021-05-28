@@ -53,28 +53,3 @@ Icon convertWindDirToIcon(
       );
   }
 }
-
-enum TemperatureUnit { kelvin, celsius, fahrenheit }
-
-class Temperature {
-  Temperature(this._kelvin);
-
-  final double _kelvin;
-
-  double get kelvin => _kelvin;
-
-  double get celsius => _kelvin - 273.15;
-
-  double get fahrenheit => _kelvin * (9 / 5) - 459.67;
-
-  double as(TemperatureUnit unit) {
-    switch (unit) {
-      case TemperatureUnit.kelvin:
-        return kelvin;
-      case TemperatureUnit.celsius:
-        return celsius;
-      case TemperatureUnit.fahrenheit:
-        return fahrenheit;
-    }
-  }
-}

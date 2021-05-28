@@ -2,9 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:weather/api/api_client.dart';
 import 'package:weather/api/api_result.dart';
-import 'package:weather/repository/model/consolidated_weather.dart';
+import 'package:weather/repository/model/consolidated_weather_list.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/model/location_data.dart';
+import 'package:weather/repository/model/location_list.dart';
 import 'package:weather/repository/weather_repository.dart';
 
 import '../helpers/resources.dart';
@@ -20,7 +21,7 @@ void main() {
       apiClient = MockApiClient();
 
       when(
-        () => apiClient.get<List<Location>>(
+        () => apiClient.get<LocationList>(
           path: '/api/location/search/',
           params: {
             'query': 'NoLocationWithSuchANameFinded',
@@ -29,13 +30,15 @@ void main() {
       ).thenAnswer(
         (_) async => ApiResult(
           true,
-          [],
+          LocationList(
+            [],
+          ),
           200,
         ),
       );
 
       when(
-        () => apiClient.get<List<Location>>(
+        () => apiClient.get<LocationList>(
           path: '/api/location/search/',
           params: {
             'query': 'san',
@@ -44,21 +47,23 @@ void main() {
       ).thenAnswer(
         (_) async => ApiResult(
           true,
-          [
-            Location(
-              'san',
-              'locationType',
-              'lattLong',
-              2233,
-              123,
-            )
-          ],
+          LocationList(
+            [
+              Location(
+                'san',
+                'locationType',
+                'lattLong',
+                2233,
+                123,
+              )
+            ],
+          ),
           200,
         ),
       );
 
       when(
-        () => apiClient.get<List<Location>>(
+        () => apiClient.get<LocationList>(
           path: '/api/location/search/',
           params: {
             'lattlong': '22,11',
@@ -67,7 +72,9 @@ void main() {
       ).thenAnswer(
         (_) async => ApiResult(
           true,
-          getLocationList(),
+          LocationList(
+            getLocationList(),
+          ),
           200,
         ),
       );
@@ -97,7 +104,7 @@ void main() {
       );
 
       when(
-        () => apiClient.get<List<ConsolidatedWeather>>(
+        () => apiClient.get<ConsolidatedWeatherList>(
           path: '/api/location/1313131313/2013/4/27/',
         ),
       ).thenAnswer(
@@ -109,25 +116,29 @@ void main() {
       );
 
       when(
-        () => apiClient.get<List<ConsolidatedWeather>>(
+        () => apiClient.get<ConsolidatedWeatherList>(
           path: '/api/location/3344/1888/4/27/',
         ),
       ).thenAnswer(
         (_) async => ApiResult(
           true,
-          [],
+          ConsolidatedWeatherList(
+            [],
+          ),
           200,
         ),
       );
 
       when(
-        () => apiClient.get<List<ConsolidatedWeather>>(
+        () => apiClient.get<ConsolidatedWeatherList>(
           path: '/api/location/2487956/2013/4/27/',
         ),
       ).thenAnswer(
         (_) async => ApiResult(
           true,
-          getConsolidatedWeatherList(),
+          ConsolidatedWeatherList(
+            getConsolidatedWeatherList(),
+          ),
           200,
         ),
       );
@@ -162,12 +173,12 @@ void main() {
                 'NoLocationWithSuchANameFinded',
               );
               expect(
-                locations.data!.length,
+                locations.data!.locations.length,
                 0,
               );
 
               verify(
-                () => apiClient.get<List<Location>>(
+                () => apiClient.get<LocationList>(
                   path: '/api/location/search/',
                   params: {
                     'query': 'NoLocationWithSuchANameFinded',
@@ -184,11 +195,11 @@ void main() {
                 'san',
               );
               expect(
-                locations.data?.length,
+                locations.data?.locations.length,
                 greaterThan(0),
               );
               verify(
-                () => apiClient.get<List<Location>>(
+                () => apiClient.get<LocationList>(
                   path: '/api/location/search/',
                   params: {
                     'query': 'san',
@@ -214,12 +225,12 @@ void main() {
               );
 
               expect(
-                locations.data?.length,
+                locations.data?.locations.length,
                 10,
               );
 
               verify(
-                () => apiClient.get<List<Location>>(
+                () => apiClient.get<LocationList>(
                   path: '/api/location/search/',
                   params: {
                     'lattlong': '22,11',
@@ -294,7 +305,7 @@ void main() {
               );
 
               verify(
-                () => apiClient.get<List<ConsolidatedWeather>>(
+                () => apiClient.get<ConsolidatedWeatherList>(
                   path: '/api/location/1313131313/2013/4/27/',
                 ),
               ).called(1);
@@ -311,12 +322,12 @@ void main() {
                 '1888/4/27/',
               );
               expect(
-                locationData.data!.length,
+                locationData.data!.data.length,
                 0,
               );
 
               verify(
-                () => apiClient.get<List<ConsolidatedWeather>>(
+                () => apiClient.get<ConsolidatedWeatherList>(
                   path: '/api/location/3344/1888/4/27/',
                 ),
               ).called(1);
@@ -334,12 +345,12 @@ void main() {
               );
 
               expect(
-                locationData.data!.length,
+                locationData.data!.data.length,
                 greaterThan(0),
               );
 
               verify(
-                () => apiClient.get<List<ConsolidatedWeather>>(
+                () => apiClient.get<ConsolidatedWeatherList>(
                   path: '/api/location/2487956/2013/4/27/',
                 ),
               ).called(1);

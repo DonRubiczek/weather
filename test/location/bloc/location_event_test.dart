@@ -53,55 +53,6 @@ void main() {
           );
         },
       );
-
-      group(
-        'NavigateToLocationForecast',
-        () {
-          test(
-            'can be instantiated',
-            () {
-              expect(
-                NavigateToLocationForecast(
-                  date: '2013/4/27/',
-                ),
-                isNotNull,
-              );
-            },
-          );
-
-          test(
-            'supports value equality',
-            () {
-              expect(
-                NavigateToLocationForecast(
-                  date: '2013/4/27/',
-                ),
-                equals(
-                  NavigateToLocationForecast(
-                    date: '2013/4/27/',
-                  ),
-                ),
-              );
-            },
-          );
-
-          test(
-            'differs when dates are different',
-            () {
-              expect(
-                NavigateToLocationForecast(
-                  date: '2013/4/27/',
-                ),
-                isNot(
-                  NavigateToLocationForecast(
-                    date: '2013/4/11/',
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
     },
   );
 }

@@ -26,12 +26,3 @@ class Loading extends LocationState {
   @override
   List<Object?> get props => [];
 }
-
-class Navigate extends LocationState {
-  Navigate(this.data);
-
-  final String data;
-
-  @override
-  List<Object?> get props => [data];
-}

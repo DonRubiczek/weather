@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:weather/api/entity_factory.dart';
 
-import 'api_error.dart';
 import 'api_result.dart';
 
 class ApiClient {
@@ -14,8 +13,6 @@ class ApiClient {
   Future<ApiResult<TResult>> get<TResult>({
     required String path,
     Map<String, dynamic>? params,
-    bool localized = false,
-    bool withToken = false,
   }) async {
     params = params ?? <String, dynamic>{};
 
@@ -49,7 +46,7 @@ class ApiClient {
         return ApiResult<TResult>(
           false,
           null,
-          ApiError.noNetwork,
+          -1,
         );
       }
       return ApiResult<TResult>(

@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:weather/api/api_result.dart';
 import 'package:weather/home/bloc/home_bloc.dart';
 import 'package:weather/repository/model/location.dart';
+import 'package:weather/repository/model/location_list.dart';
 import 'package:weather/repository/weather_repository.dart';
 
 class MockWeatherRepository extends Mock implements WeatherRepository {}
@@ -26,7 +27,9 @@ void main() {
             (_) async {
               return ApiResult(
                 true,
-                [],
+                LocationList(
+                  [],
+                ),
                 200,
               );
             },
@@ -40,15 +43,17 @@ void main() {
             (_) async {
               return ApiResult(
                 true,
-                [
-                  Location(
-                    'London',
-                    'locationType1',
-                    'lattLong1',
-                    1,
-                    1,
-                  ),
-                ],
+                LocationList(
+                  [
+                    Location(
+                      'London',
+                      'locationType1',
+                      'lattLong1',
+                      1,
+                      1,
+                    ),
+                  ],
+                ),
                 200,
               );
             },
@@ -62,15 +67,17 @@ void main() {
           ).thenAnswer(
             (_) async => ApiResult(
                 true,
-                [
-                  Location(
-                    'London',
-                    'City',
-                    '51.506321,-0.12714',
-                    44418,
-                    null,
-                  )
-                ],
+                LocationList(
+                  [
+                    Location(
+                      'London',
+                      'City',
+                      '51.506321,-0.12714',
+                      44418,
+                      null,
+                    )
+                  ],
+                ),
                 200),
           );
         },

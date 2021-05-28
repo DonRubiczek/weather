@@ -24,8 +24,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       yield* mapLocationByNameToState(
         event,
       );
-    } else if (event is NavigateToLocationForecast) {
-      yield Navigate(event.date);
     }
   }
 

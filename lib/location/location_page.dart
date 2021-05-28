@@ -48,14 +48,20 @@ class LocationPage extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
-class LocationView extends StatelessWidget {
-  LocationView({
+class LocationView extends StatefulWidget {
+  const LocationView({
     Key? key,
     required this.location,
   }) : super(key: key);
-  DateTime selectedDate = DateTime.now();
+
   final Location location;
+
+  @override
+  _LocationViewState createState() => _LocationViewState();
+}
+
+class _LocationViewState extends State<LocationView> {
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,7 @@ class LocationView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          '${location.title}',
+          '${widget.location.title}',
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
@@ -83,21 +89,7 @@ class LocationView extends StatelessWidget {
         ),
       ),
       backgroundColor: context.theme.backgroundColor,
-      body: BlocConsumer<LocationBloc, LocationState>(
-        buildWhen: (previousState, state) {
-          return state is! Navigate;
-        },
-        listener: (BuildContext context, state) {
-          if (state is Navigate) {
-            Navigator.push(
-              context,
-              DayForecastPage.route(
-                location: location,
-                date: state.data,
-              ),
-            );
-          }
-        },
+      body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
           if (state is LocationDataCollected)
             return _buildPage(
@@ -259,15 +251,26 @@ class LocationView extends StatelessWidget {
       firstDate: DateTime(2015),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked != selectedDate) selectedDate = picked;
-    var correctDateFormat =
-        '${selectedDate.toLocal()}'.split(' ')[0].replaceAll(
-              RegExp(r'-'),
-              '/',
-            );
-    BlocProvider.of<LocationBloc>(context).add(
-      NavigateToLocationForecast(date: correctDateFormat),
-    );
+    if (picked != null && picked != selectedDate) {
+      setState(
+        () {
+          selectedDate = picked;
+        },
+      );
+
+      var correctDateFormat =
+          '${selectedDate.toLocal()}'.split(' ')[0].replaceAll(
+                RegExp(r'-'),
+                '/',
+              );
+      await Navigator.push(
+        context,
+        DayForecastPage.route(
+          location: widget.location,
+          date: correctDateFormat,
+        ),
+      );
+    }
   }
 
   Container _buildSourcesTile(Sources data) {

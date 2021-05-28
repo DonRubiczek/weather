@@ -3,9 +3,11 @@ import 'package:weather/location/bloc/location_bloc.dart';
 import 'package:weather/repository/model/location_data.dart';
 import 'package:weather/repository/model/parent.dart';
 
+import '../../helpers/resources.dart';
+
 void main() {
   group(
-    'HomeState',
+    'LocationState',
     () {
       group(
         'supports value equality',
@@ -90,24 +92,6 @@ void main() {
           );
 
           test(
-            'when states are the same - navigate',
-            () {
-              final stateA = Navigate(
-                'data',
-              );
-              final stateB = Navigate(
-                'data',
-              );
-              expect(
-                stateA,
-                equals(
-                  stateB,
-                ),
-              );
-            },
-          );
-
-          test(
             'when states are different - initial, error',
             () {
               final stateA = Initial();
@@ -124,10 +108,10 @@ void main() {
           );
 
           test(
-            'when states are different - navigate, loading',
+            'when states are different - locationDataCollected, loading',
             () {
-              final stateA = Navigate(
-                'data',
+              final stateA = LocationDataCollected(
+                getLocationData(),
               );
               final stateB = Loading();
               expect(

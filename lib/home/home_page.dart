@@ -26,12 +26,19 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeBloc(
         context.read<Backend>().weatherRepository,
       ),
-      child: HomeView(),
+      child: const HomeView(),
     );
   }
 }
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final latitudeController = TextEditingController();
   final longitudeController = TextEditingController();
   final nameController = TextEditingController();
@@ -241,5 +248,14 @@ class HomeView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    latitudeController.dispose();
+    longitudeController.dispose();
+
+    super.dispose();
   }
 }

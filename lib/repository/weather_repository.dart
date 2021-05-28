@@ -1,7 +1,7 @@
 import 'package:weather/api/api_client.dart';
 import 'package:weather/api/api_result.dart';
-import 'package:weather/repository/model/consolidated_weather.dart';
-import 'package:weather/repository/model/location.dart';
+import 'package:weather/repository/model/consolidated_weather_list.dart';
+import 'package:weather/repository/model/location_list.dart';
 
 import 'model/location_data.dart';
 
@@ -10,9 +10,8 @@ class WeatherRepository {
 
   final ApiClient client;
 
-  Future<ApiResult<List<Location>>> locationSearchByName(
-      String location) async {
-    final result = await client.get<List<Location>>(
+  Future<ApiResult<LocationList>> locationSearchByName(String location) async {
+    final result = await client.get<LocationList>(
       path: '/api/location/search/',
       params: {
         'query': location,
@@ -22,9 +21,9 @@ class WeatherRepository {
     return result;
   }
 
-  Future<ApiResult<List<Location>>> locationSearchByCoordinates(
+  Future<ApiResult<LocationList>> locationSearchByCoordinates(
       String lattitude, String longitude) async {
-    final result = await client.get<List<Location>>(
+    final result = await client.get<LocationList>(
       path: '/api/location/search/',
       params: {
         'lattlong': '$lattitude,$longitude',
@@ -42,9 +41,9 @@ class WeatherRepository {
     return result;
   }
 
-  Future<ApiResult<List<ConsolidatedWeather>>> locationDayInformation(
+  Future<ApiResult<ConsolidatedWeatherList>> locationDayInformation(
       String locationId, String date) async {
-    final result = await client.get<List<ConsolidatedWeather>>(
+    final result = await client.get<ConsolidatedWeatherList>(
       path: '/api/location/$locationId/$date',
     );
 

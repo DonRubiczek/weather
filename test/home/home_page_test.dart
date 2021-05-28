@@ -38,7 +38,7 @@ extension on WidgetTester {
     return pumpApp(
       BlocProvider.value(
         value: bloc,
-        child: HomeView(),
+        child: const HomeView(),
       ),
       weatherRepository: weatherRepository,
       settingsRepository: settingsRepository,

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:weather/api/api_result.dart';
 import 'package:weather/day_forecast/bloc/day_forecast_bloc.dart';
+import 'package:weather/repository/model/consolidated_weather_list.dart';
 import 'package:weather/repository/weather_repository.dart';
 
 import '../../helpers/resources.dart';
@@ -27,7 +28,9 @@ void main() {
           ).thenAnswer(
             (_) async => ApiResult(
               true,
-              getConsolidatedWeatherList(),
+              ConsolidatedWeatherList(
+                getConsolidatedWeatherList(),
+              ),
               200,
             ),
           );
@@ -53,7 +56,9 @@ void main() {
           ).thenAnswer(
             (_) async => ApiResult(
               true,
-              [],
+              ConsolidatedWeatherList(
+                [],
+              ),
               200,
             ),
           );

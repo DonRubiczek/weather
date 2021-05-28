@@ -132,29 +132,6 @@ void main() {
           );
         },
       );
-
-      group(
-        'NavigateToLocationForecast',
-        () {
-          blocTest(
-            'yields navigate state after correctly preccessing'
-            'navigate to location forecast request',
-            build: () => LocationBloc(
-              weatherRepository,
-            ),
-            act: (LocationBloc bloc) => bloc.add(
-              NavigateToLocationForecast(
-                date: '22/06/2018/',
-              ),
-            ),
-            verify: (LocationBloc b) =>
-                b.state ==
-                Navigate(
-                  '22/06/2018/',
-                ),
-          );
-        },
-      );
     },
   );
 }

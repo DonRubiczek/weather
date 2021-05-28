@@ -37,7 +37,7 @@ class DayForecastBloc extends Bloc<DayForecastEvent, DayForecastState> {
 
     if (result.data != null)
       yield DayForecastCollected(
-        result.data!,
+        result.data!.data,
       );
     else
       yield Error();
