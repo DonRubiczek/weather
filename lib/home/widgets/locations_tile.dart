@@ -6,6 +6,8 @@ import 'package:weather/location/location_page.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/theme/app_specific_theme.dart';
 
+import 'package:weather/l10n/l10n.dart';
+
 class LocationsTile extends StatelessWidget {
   const LocationsTile({
     Key? key,
@@ -17,7 +19,9 @@ class LocationsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      key: const Key('locationListTile'),
+      key: Key(
+        context.l10n.home_page_locations_tile_key,
+      ),
       onTap: () => Navigator.push(
         context,
         LocationPage.route(
@@ -66,11 +70,13 @@ class LocationsTile extends StatelessWidget {
                     _prepareLocationLattLongFormat(
                       location.lattLong.split(',').first,
                       0,
+                      context,
                     ) +
                     ' ' +
                     _prepareLocationLattLongFormat(
                       location.lattLong.split(',').last,
                       1,
+                      context,
                     ),
                 style: TextStyle(
                   color: context.theme.bodyTextColor,
@@ -81,10 +87,12 @@ class LocationsTile extends StatelessWidget {
           location.distance != null
               ? Text(
                   context.read<Backend>().settingsRepository.metricId == 0
-                      ? 'Distance from: '
-                          '${location.distance} metres'
-                      : 'Distance from: '
-                          '${(location.distance! / 0.9144).round()} yards',
+                      ? '${context.l10n.home_page_locations_tile_distance}'
+                          '${location.distance}'
+                          '${context.l10n.home_page_locations_tile_metres}'
+                      : '${context.l10n.home_page_locations_tile_distance}'
+                          '${(location.distance! / 0.9144).round()}'
+                          '${context.l10n.home_page_locations_tile_yards}',
                   style: TextStyle(
                     color: context.theme.bodyTextColor,
                   ),
@@ -92,12 +100,19 @@ class LocationsTile extends StatelessWidget {
               : Container(),
         ],
       ),
-      trailing: Icon(Icons.keyboard_arrow_right,
-          color: context.theme.bodyTextColor, size: 30.0),
+      trailing: Icon(
+        Icons.keyboard_arrow_right,
+        color: context.theme.bodyTextColor,
+        size: 30.0,
+      ),
     );
   }
 
-  String _prepareLocationLattLongFormat(String value, int valueId) {
+  String _prepareLocationLattLongFormat(
+    String value,
+    int valueId,
+    BuildContext context,
+  ) {
     value = value.substring(
       0,
       value.indexOf('.') + 3,
@@ -106,18 +121,18 @@ class LocationsTile extends StatelessWidget {
     if (valueId == 0) {
       switch (isMinus) {
         case true:
-          return '${value}S';
+          return '$value' '${context.l10n.home_page_locations_tile_south}';
         case false:
-          return '${value}N';
+          return '$value' '${context.l10n.home_page_locations_tile_north}';
         default:
           return value;
       }
     } else {
       switch (isMinus) {
         case true:
-          return '${value}W';
+          return '$value' '${context.l10n.home_page_locations_tile_west}';
         case false:
-          return '${value}E';
+          return '$value' '${context.l10n.home_page_locations_tile_east}';
         default:
           return value;
       }

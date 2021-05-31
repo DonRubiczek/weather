@@ -33,7 +33,9 @@ void mainCommon() {
       runApp(
         BackendProvider(
           backend: backend,
-          child: App(backend: backend),
+          child: App(
+            backend: backend,
+          ),
         ),
       );
     },

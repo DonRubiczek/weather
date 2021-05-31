@@ -13,6 +13,8 @@ import 'package:weather/widgets/error_card.dart';
 import 'package:weather/widgets/loader.dart';
 import 'package:weather/theme/app_specific_theme.dart';
 
+import 'package:weather/l10n/l10n.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -51,17 +53,17 @@ class _HomeViewState extends State<HomeView> {
       key: myGlobals.scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text(
-          'Weather',
-          style: TextStyle(
+        title: Text(
+          context.l10n.home_page_title,
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          key: const Key(
-            'homeAppBarSettingsButton',
+          key: Key(
+            context.l10n.home_page_settings_button_key,
           ),
           icon: const Icon(
             Icons.settings,
@@ -130,7 +132,7 @@ class _HomeViewState extends State<HomeView> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Search location by name',
+                        context.l10n.home_page_search_name_subtitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: context.theme.primaryColor,
@@ -142,11 +144,11 @@ class _HomeViewState extends State<HomeView> {
                       height: 10,
                     ),
                     HomeForm(
-                      formFieldKey: const Key(
-                        'searchLocationByNameField',
+                      formFieldKey: Key(
+                        context.l10n.home_page_search_name_key,
                       ),
                       controller: nameController,
-                      labelText: 'Enter searching location name',
+                      labelText: context.l10n.home_page_search_name_label,
                       onFieldSubmitted: (value) =>
                           BlocProvider.of<HomeBloc>(context).add(
                         FindLocationByNameEvent(
@@ -170,7 +172,7 @@ class _HomeViewState extends State<HomeView> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Search location by coordinates',
+                        context.l10n.home_page_search_coordinates_subtitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: context.theme.primaryColor,
@@ -183,18 +185,26 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     HomeForm(
                       formKey: formKeyLat,
-                      formFieldKey: const Key(
-                        'searchLocationByCoordinatesLattitudeField',
+                      formFieldKey: Key(
+                        context.l10n.home_page_search_lattitude_key,
                       ),
                       controller: latitudeController,
-                      labelText: 'Enter lattitude, format eg. 50.068',
+                      labelText: context.l10n.home_page_search_lattitude_label,
                       textInputType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Lattitude cannot be empty';
-                        } else if (value.contains('other')) {
-                          return 'Incorrect format';
+                          return context
+                              .l10n.home_page_search_lattitude_validation_empty;
+                        } else if (value.characters.first == 0.toString() ||
+                            value.characters
+                                    .where(
+                                      (val) => val == '.',
+                                    )
+                                    .length >
+                                1) {
+                          return context.l10n
+                              .home_page_search_lattitude_validation_format;
                         }
                         return null;
                       },
@@ -205,18 +215,25 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     HomeForm(
                       formKey: formKeyLong,
-                      formFieldKey: const Key(
-                        'searchLocationByCoordinatesLongitudeField',
+                      formFieldKey: Key(
+                        context.l10n.home_page_search_longitude_key,
                       ),
                       controller: longitudeController,
-                      labelText: 'Enter longitude, format eg. -5.316',
-                      textInputType: TextInputType.number,
+                      labelText: context.l10n.home_page_search_longitude_label,
                       focus: focus,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Longitude cannot be empty';
-                        } else if (value.contains('other')) {
-                          return 'Incorrect format';
+                          return context
+                              .l10n.home_page_search_longitude_validation_empty;
+                        } else if (value.characters.first == 0.toString() ||
+                            value.characters
+                                    .where(
+                                      (val) => val == '.',
+                                    )
+                                    .length >
+                                1) {
+                          return context.l10n
+                              .home_page_search_longitude_validation_format;
                         }
                         return null;
                       },

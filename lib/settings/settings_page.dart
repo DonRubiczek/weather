@@ -5,6 +5,7 @@ import 'package:weather/backend/backend.dart';
 import 'package:weather/settings/bloc/settings_bloc.dart';
 import 'package:weather/settings/widget/setting_option.dart';
 import 'package:weather/theme/app_specific_theme.dart';
+import 'package:weather/l10n/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage._({Key? key}) : super(key: key);
@@ -29,12 +30,12 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
+        title: Text(
+          context.l10n.settings_page_title,
         ),
         leading: IconButton(
-          key: const Key(
-            'settingsAppBarBackButton',
+          key: Key(
+            context.l10n.settings_page_back_button_key,
           ),
           icon: const Icon(
             Icons.arrow_back,
@@ -77,15 +78,15 @@ class SettingsView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Theme',
+              context.l10n.settings_page_theme_header,
               style: context.theme.headline3,
             ),
           ),
           SettingsOption(
-            key: const Key(
-              'settingsLightThemeOption',
+            key: Key(
+              context.l10n.settings_page_light_theme_key,
             ),
-            title: 'Light',
+            title: context.l10n.settings_page_light_theme,
             value: 0,
             groupValue: context.theme.runtimeType == BrightAppTheme ? 0 : 1,
             onChanged: (value) => bloc.add(
@@ -97,8 +98,10 @@ class SettingsView extends StatelessWidget {
             height: 1,
           ),
           SettingsOption(
-            title: 'Dark',
-            key: const Key('settingsDarkThemeOption'),
+            title: context.l10n.settings_page_dark_theme,
+            key: Key(
+              context.l10n.settings_page_dark_theme_key,
+            ),
             value: 1,
             onChanged: (value) => bloc.add(
               ChangeTheme(themeId: value),
@@ -113,20 +116,22 @@ class SettingsView extends StatelessWidget {
               bottom: 8,
             ),
             child: Text(
-              'Unit system',
+              context.l10n.settings_page_unit_system_header,
               style: context.theme.headline3,
             ),
           ),
           Consumer<Backend>(
             builder: (context, model, _) => SettingsOption(
-              title: 'Metric',
-              key: const Key(
-                'settingsMetricSystemOption',
+              title: context.l10n.settings_page_metric_system,
+              key: Key(
+                context.l10n.settings_page_metric_system_key,
               ),
               value: 0,
               groupValue: model.settingsRepository.metricId!,
               onChanged: (value) => bloc.add(
-                ChangeMetricSystem(systemId: value),
+                ChangeMetricSystem(
+                  systemId: value,
+                ),
               ),
             ),
           ),
@@ -136,9 +141,9 @@ class SettingsView extends StatelessWidget {
           ),
           Consumer<Backend>(
             builder: (context, model, _) => SettingsOption(
-              title: 'Imperial',
-              key: const Key(
-                'settingsImperialSystemOption',
+              title: context.l10n.settings_page_imperial_system,
+              key: Key(
+                context.l10n.settings_page_imperial_system_key,
               ),
               value: 1,
               groupValue: model.settingsRepository.metricId!,
@@ -155,7 +160,9 @@ class SettingsView extends StatelessWidget {
 
 void _showAlertDialog(BuildContext context) {
   Widget okButton = TextButton(
-    child: const Text('ok'),
+    child: Text(
+      context.l10n.settings_page_ok_button,
+    ),
     onPressed: () => Navigator.pop(
       context,
     ),
@@ -165,10 +172,11 @@ void _showAlertDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Error'),
-        content: const Text(
-          'During changing settings occured '
-          'error, please try again later',
+        title: Text(
+          context.l10n.settings_page_error_header,
+        ),
+        content: Text(
+          context.l10n.settings_page_error_desc,
         ),
         actions: [
           okButton,

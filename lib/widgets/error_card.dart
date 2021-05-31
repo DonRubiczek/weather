@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/theme/app_specific_theme.dart';
+import 'package:weather/l10n/l10n.dart';
 
 class ErrorCard extends StatelessWidget {
   ErrorCard({
@@ -9,8 +10,6 @@ class ErrorCard extends StatelessWidget {
   }) : super(key: key);
 
   final String errorMessage;
-  final String defaultErrorMessage = 'During communication with server '
-      'error occured, please try again later';
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class ErrorCard extends StatelessWidget {
                         child: Text(
                           errorMessage.isNotEmpty
                               ? errorMessage
-                              : defaultErrorMessage,
+                              : context.l10n.error_card_default_message,
                           style: context.theme.headline3,
                           textAlign: TextAlign.center,
                         ),

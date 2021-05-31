@@ -1,7 +1,100 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
-}
+    "home_page_title": "Weather",
+    "home_page_settings_button_key": "homeAppBarSettingsButton",
+    "home_page_search_name_subtitle": "Search location by name",
+    "home_page_search_name_key": "searchLocationByNameField",
+    "home_page_search_name_label": "Enter searching location name",
+    "home_page_search_coordinates_subtitle": "Search location by coordinates",
+    "home_page_search_lattitude_key": "searchLocationByCoordinatesLattitudeField",
+    "home_page_search_lattitude_label": "Enter lattitude, format eg. 50.068",
+    "home_page_search_lattitude_validation_empty": "searchLocationByCoordinatesLattitudeField",
+    "home_page_search_lattitude_validation_format": "searchLocationByCoordinatesLattitudeField",
+    "home_page_search_longitude_key": "Lattitude cannot be empty",
+    "home_page_search_longitude_label": "Enter lattitude, format eg. -12.05",
+    "home_page_search_longitude_validation_empty": "Longitude cannot be empty",
+    "home_page_search_longitude_validation_format": "Incorrect format",
+    "home_page_locations_list_empty_message": "There is no location in database which fulfil search criteria",
+    "home_page_locations_tile_key": "locationListTile",
+    "home_page_locations_tile_distance": "Distance from: ",
+    "home_page_locations_tile_metres": "metres",
+    "home_page_locations_tile_yards": "yards",
+    "home_page_locations_tile_north": "N",
+    "home_page_locations_tile_south": "S",
+    "home_page_locations_tile_west": "W",
+    "home_page_locations_tile_east": "E",
+
+    "day_forecast_page_back_button_key": "dayForecastAppBarBackButton",
+
+    "weather_cards_list_empty": "No weather data for this date and location",
+
+    "weather_card_sky_header_key": "locationWeatherSkyHeaderKey",
+    "weather_card_wind_header_key": "locationWeatherWindHeaderKey",
+    "weather_card_temp_header_key": "locationWeatherTempHeaderKey",
+    "weather_card_visibility_header_key": "locationWeatherVisibilityHeaderKey",
+    "weather_card_humidity_header_key": "locationWeatherHumidityHeaderKey",
+    "weather_card_air_pressure_header_key": "locationWeatherAirPressureHeaderKey",
+    "weather_card_predict_header_key": "locationWeatherPredictHeaderKey",
+    "weather_card_key": "locationWeatherCardKey_",
+    "weather_card_sky_header_name": "sky: ",
+    "weather_card_wind_header_name": "wind: ",
+    "weather_card_speed_header_name": "speed: ",
+    "weather_card_temperature_header_name": "temperature: ",
+    "weather_card_temp_header_name": "temp",
+    "weather_card_humidity_header_name": "humidity: ",
+    "weather_card_vis_header_name": "visibility: ",
+    "weather_card_predict_header_name": "predictablitity: ",
+    "weather_card_air_pressure_header_name": "air pressure: ",
+
+    "location_page_back_button_key": "locationAppBarBackButton",
+    "location_page_sources": "Sources",
+    "location_page_select_date_desc": "Choose date from the past and display location weather:",
+    "location_page_select_date_key": "locationSelectDateButtonKey",
+    "location_page_select_date": "Select date",
+    "location_page_source_tile_key": "locationSourceTileKey",
+    "location_page_type_header": "location type: ",
+    "location_page_lattitude_header": "lattitude: ",
+    "location_page_longitude_header": "longitude: ",
+    "location_page_timezone_header": "timezone: ",
+    "location_page_time_header": "time: ",
+    "location_page_sun_rise_header": "sun rise: ",
+    "location_page_sun_set_header": "sun set: ",
+    "location_page_header_key": "locationHeaderKey",
+
+    "settings_page_title": "Settings",
+    "settings_page_back_button_key": "settingsAppBarBackButton",
+    "settings_page_theme_header": "Theme",
+    "settings_page_light_theme_key": "settingsLightThemeOption",
+    "settings_page_light_theme": "Light",
+    "settings_page_dark_theme": "Dark",
+    "settings_page_dark_theme_key": "settingsDarkThemeOption",
+    "settings_page_unit_system_header": "Unit system",
+    "settings_page_metric_system": "Metric",
+    "settings_page_metric_system_key": "settingsMetricSystemOption",
+    "settings_page_imperial_system": "Imperial",
+    "settings_page_imperial_system_key": "settingsImperialSystemOption",
+    "settings_page_ok_button": "ok",
+    "settings_page_error_header": "Error",
+    "settings_page_error_desc": "During changing settings occured error, please try again later",
+
+    "error_card_default_message": "During communication with server error occured, please try again later"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }

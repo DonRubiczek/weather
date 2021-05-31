@@ -4,6 +4,8 @@ import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/utils/converters.dart';
 import 'package:weather/theme/app_specific_theme.dart';
 
+import 'package:weather/l10n/l10n.dart';
+
 class WeatherCard extends StatelessWidget {
   WeatherCard({Key? key, required this.weatherData}) : super(key: key);
 
@@ -12,7 +14,8 @@ class WeatherCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       key: Key(
-        'locationWeatherCardKey_${weatherData.id}',
+        '${context.l10n.weather_card_key}'
+        '${weatherData.id}',
       ),
       width: 300,
       decoration: BoxDecoration(
@@ -54,10 +57,11 @@ class WeatherCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          'sky: ${weatherData.weatherStateName.toLowerCase()}',
+                          '${context.l10n.weather_card_sky_header_name}'
+                          '${weatherData.weatherStateName.toLowerCase()}',
                           style: context.theme.headline2,
-                          key: const Key(
-                            'locationWeatherSkyHeaderKey',
+                          key: Key(
+                            context.l10n.weather_card_sky_header_key,
                           ),
                         ),
                       )
@@ -75,12 +79,14 @@ class WeatherCard extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        'wind: ${weatherData.windDirectionCompass} '
+                        '${context.l10n.weather_card_wind_header_name}'
+                        '${weatherData.windDirectionCompass} '
                         '${weatherData.windDirection?.round().toString()}°'
-                        ', speed ${weatherData.windSpeed?.round().toString()}',
+                        ', ${context.l10n.weather_card_speed_header_name}'
+                        '${weatherData.windSpeed?.round().toString()}',
                         style: context.theme.headline2,
-                        key: const Key(
-                          'locationWeatherWindHeaderKey',
+                        key: Key(
+                          context.l10n.weather_card_wind_header_key,
                         ),
                       ),
                     )
@@ -95,10 +101,10 @@ class WeatherCard extends StatelessWidget {
                     color: context.theme.errorColor,
                   ),
                   Text(
-                    'temperature:',
+                    context.l10n.weather_card_temperature_header_name,
                     style: context.theme.headline2,
-                    key: const Key(
-                      'locationWeatherTempHeaderKey',
+                    key: Key(
+                      context.l10n.weather_card_temp_header_key,
                     ),
                   ),
                   // const SizedBox(
@@ -134,7 +140,7 @@ class WeatherCard extends StatelessWidget {
                                 style: context.theme.headline1,
                               ),
                               Text(
-                                'temp',
+                                context.l10n.weather_card_temp_header_name,
                                 style: context.theme.headline2,
                               )
                             ],
@@ -172,11 +178,12 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'humidity: ${weatherData.humidity?.round().toString()}',
+                      '${context.l10n.weather_card_humidity_header_name}'
+                      '${weatherData.humidity?.round().toString()}',
                       style: context.theme.headline2,
                     ),
-                    key: const Key(
-                      'locationWeatherHumidityHeaderKey',
+                    key: Key(
+                      context.l10n.weather_card_humidity_header_key,
                     ),
                   )
                 ],
@@ -190,11 +197,12 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'visibility: ${weatherData.visibility?.round()}',
+                      '${context.l10n.weather_card_vis_header_name}'
+                      '${weatherData.visibility?.round()}',
                       style: context.theme.headline2,
                     ),
-                    key: const Key(
-                      'locationWeatherVisibilityHeaderKey',
+                    key: Key(
+                      context.l10n.weather_card_visibility_header_key,
                     ),
                   )
                 ],
@@ -208,11 +216,12 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'air pressure: ${weatherData.airPressure?.round()}',
+                      '${context.l10n.weather_card_air_pressure_header_name}'
+                      '${weatherData.airPressure?.round()}',
                       style: context.theme.headline2,
                     ),
-                    key: const Key(
-                      'locationWeatherAirPressureHeaderKey',
+                    key: Key(
+                      context.l10n.weather_card_air_pressure_header_key,
                     ),
                   )
                 ],
@@ -226,9 +235,10 @@ class WeatherCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'predictability: ${weatherData.predictability?.round()}',
-                      key: const Key(
-                        'locationWeatherPredictHeaderKey',
+                      '${context.l10n.weather_card_predict_header_name}'
+                      '${weatherData.predictability?.round()}',
+                      key: Key(
+                        context.l10n.weather_card_predict_header_key,
                       ),
                       style: TextStyle(
                         color: context.theme.bodyTextColor,

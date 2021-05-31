@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weather/backend/backend.dart';
 import 'package:weather/day_forecast/day_forecast_page.dart';
+import 'package:weather/l10n/l10n.dart';
 import 'package:weather/repository/model/location.dart';
 import 'package:weather/repository/model/location_data.dart';
 import 'package:weather/repository/model/sources.dart';
+import 'package:weather/theme/app_specific_theme.dart';
 import 'package:weather/theme/app_theme.dart';
 import 'package:weather/widgets/error_card.dart';
 import 'package:weather/widgets/loader.dart';
 import 'package:weather/widgets/weather_card.dart';
-import 'package:weather/theme/app_specific_theme.dart';
 
 import 'bloc/location_bloc.dart';
 
@@ -77,8 +78,8 @@ class _LocationViewState extends State<LocationView> {
         ),
         centerTitle: true,
         leading: IconButton(
-          key: const Key(
-            'locationAppBarBackButton',
+          key: Key(
+            context.l10n.location_page_back_button_key,
           ),
           icon: const Icon(
             Icons.arrow_back,
@@ -118,6 +119,7 @@ class _LocationViewState extends State<LocationView> {
           _weatherPageHeaderData(
             data,
             theme,
+            context,
           ),
           _buildDatePickerContainer(
             context,
@@ -141,7 +143,7 @@ class _LocationViewState extends State<LocationView> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'Sources',
+                context.l10n.location_page_sources,
                 style: TextStyle(
                   color: theme.bodyTextColor,
                   fontWeight: FontWeight.bold,
@@ -159,6 +161,7 @@ class _LocationViewState extends State<LocationView> {
               itemBuilder: (context, index) {
                 return _buildSourcesTile(
                   data.sources[index],
+                  context,
                 );
               },
             ),
@@ -198,9 +201,9 @@ class _LocationViewState extends State<LocationView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'Choose date from the past and display location weather:',
-              style: TextStyle(
+            Text(
+              context.l10n.location_page_select_date_desc,
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -209,13 +212,13 @@ class _LocationViewState extends State<LocationView> {
             Row(
               children: [
                 ElevatedButton(
-                  key: const Key(
-                    'locationSelectDateButtonKey',
+                  key: Key(
+                    context.l10n.location_page_select_date_key,
                   ),
                   onPressed: () => _selectDate(context),
-                  child: const Text(
-                    'Select date',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.location_page_select_date,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -273,9 +276,11 @@ class _LocationViewState extends State<LocationView> {
     }
   }
 
-  Container _buildSourcesTile(Sources data) {
+  Container _buildSourcesTile(Sources data, BuildContext context) {
     return Container(
-      key: const Key('locationSourceTileKey'),
+      key: Key(
+        context.l10n.location_page_source_tile_key,
+      ),
       padding: const EdgeInsets.all(4),
       child: Center(
         child: InkWell(
@@ -294,6 +299,7 @@ class _LocationViewState extends State<LocationView> {
   Container _weatherPageHeaderData(
     LocationData data,
     AppTheme theme,
+    BuildContext context,
   ) {
     return Container(
       padding: const EdgeInsets.all(15),
@@ -301,31 +307,38 @@ class _LocationViewState extends State<LocationView> {
         children: <Widget>[
           _headerAlignedText(
             theme,
-            'location type: ${data.locationType}',
+            '${context.l10n.location_page_type_header}'
+            '${data.locationType}',
           ),
           _headerAlignedText(
             theme,
-            'lattitude: ${data.lattlong.split(',').first}',
+            '${context.l10n.location_page_lattitude_header}'
+            '${data.lattlong.split(',').first}',
           ),
           _headerAlignedText(
             theme,
-            'longitude: ${data.lattlong.split(',').last}',
+            '${context.l10n.location_page_longitude_header}'
+            '${data.lattlong.split(',').last}',
           ),
           _headerAlignedText(
             theme,
-            'timezone: ${data.timezone}-${data.timezoneName}',
+            '${context.l10n.location_page_timezone_header}'
+            '${data.timezone}-${data.timezoneName}',
           ),
           _headerAlignedText(
             theme,
-            'time: ${data.time}',
+            '${context.l10n.location_page_time_header}'
+            '${data.time}',
           ),
           _headerAlignedText(
             theme,
-            'sun rise: ${data.sunRise}',
+            '${context.l10n.location_page_sun_rise_header}'
+            '${data.sunRise}',
           ),
           _headerAlignedText(
             theme,
-            'sun set: ${data.sunSet}',
+            '${context.l10n.location_page_sun_set_header}'
+            '${data.sunSet}',
           ),
         ],
       ),
@@ -339,8 +352,8 @@ class _LocationViewState extends State<LocationView> {
         text,
         style: theme.headline2,
         textAlign: TextAlign.left,
-        key: const Key(
-          'locationHeaderKey',
+        key: Key(
+          context.l10n.location_page_header_key,
         ),
       ),
     );

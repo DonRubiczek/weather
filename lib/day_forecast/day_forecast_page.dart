@@ -8,6 +8,8 @@ import 'package:weather/repository/model/location.dart';
 import 'package:weather/widgets/error_card.dart';
 import 'package:weather/widgets/loader.dart';
 
+import 'package:weather/l10n/l10n.dart';
+
 class DayForecastPage extends StatelessWidget {
   DayForecastPage._({
     Key? key,
@@ -73,8 +75,8 @@ class DayForecastView extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          key: const Key(
-            'dayForecastAppBarBackButton',
+          key: Key(
+            context.l10n.day_forecast_page_back_button_key,
           ),
           icon: const Icon(
             Icons.arrow_back,

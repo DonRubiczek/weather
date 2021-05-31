@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:weather/repository/model/consolidated_weather.dart';
 import 'package:weather/widgets/weather_card.dart';
 
+import 'package:weather/l10n/l10n.dart';
+
 class WeatherCardsList extends StatelessWidget {
   const WeatherCardsList({
     Key? key,
@@ -41,12 +43,12 @@ class WeatherCardsList extends StatelessWidget {
                   color: Colors.green,
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width * 0.66,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'No weather data for this date and location',
+                      context.l10n.weather_cards_list_empty,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         backgroundColor: Colors.black,
                         color: Colors.white,
                         fontSize: 20,
